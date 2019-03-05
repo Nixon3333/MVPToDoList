@@ -2,6 +2,7 @@ package com.todo.todolist;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     List<Task> taskList = new ArrayList<>();
+    List<Task> copyTaskList;
 
     @NonNull
     @Override
@@ -34,9 +36,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     public void setTaskList(List<Task> list) {
         taskList.addAll(list);
+        copyTaskList = new ArrayList<>();
+        copyTaskList.addAll(taskList);
         notifyDataSetChanged();
     }
 
+    public void filter(String string) {
+        taskList.clear();
+        if(string.isEmpty()){
+            taskList.addAll(copyTaskList);
+        } else{
+            string = string.toLowerCase();
+            for(Task task: copyTaskList){
+                if(task.getTitle().toLowerCase().contains(string) || task.getTask().toLowerCase().contains(string)){
+                    taskList.add(task);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
 
