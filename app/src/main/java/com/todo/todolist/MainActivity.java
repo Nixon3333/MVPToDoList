@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        //registerForContextMenu(recyclerView);
     }
 
     @Override
@@ -86,5 +87,19 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
             }
         });
         return true;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case 1:
+                Log.d("Menu", "edit");
+                break;
+            case 2:
+                Log.d("Menu", "delete");
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 }

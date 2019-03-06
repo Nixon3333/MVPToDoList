@@ -2,10 +2,15 @@ package com.todo.todolist;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -54,12 +59,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     public void filter(String string) {
         taskList.clear();
-        if(string.isEmpty()){
+        if (string.isEmpty()) {
             taskList.addAll(copyTaskList);
-        } else{
+        } else {
             string = string.toLowerCase();
-            for(Task task: copyTaskList){
-                if(task.getTitle().toLowerCase().contains(string) || task.getTask().toLowerCase().contains(string)){
+            for (Task task : copyTaskList) {
+                if (task.getTitle().toLowerCase().contains(string) || task.getTask().toLowerCase().contains(string)) {
                     taskList.add(task);
                 }
             }
@@ -67,7 +72,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         notifyDataSetChanged();
     }
 
-    class TaskViewHolder extends RecyclerView.ViewHolder {
+    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
         TextView tvTitle;
         TextView tvTask;
@@ -78,6 +83,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvTask = itemView.findViewById(R.id.tvTask);
             imagePriority = itemView.findViewById(R.id.imagePriority);
+
+            itemView.setOnCreateContextMenuListener(this);
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.add(Menu.NONE, 1, 1, "Edit");
+            contextMenu.add(Menu.NONE, 2, 2, "Delete");
+        }
+
     }
 }
