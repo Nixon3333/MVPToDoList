@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -19,6 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "_id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_TASK = "task";
+    private static final String KEY_PRIORITY = "priority";
 
     static List<Task> taskList = new ArrayList<>();
 
@@ -29,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("create table " + TABLE_TASKS + "(" + KEY_ID
-                + " integer primary key autoincrement," + KEY_TITLE + " text," + KEY_TASK + " text" + ")");
+                + " integer primary key autoincrement," + KEY_TITLE + " text," + KEY_TASK + " text," + KEY_PRIORITY + " integer" + ")");
     }
 
     @Override
@@ -38,24 +40,26 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void saveTask(String title, String task) {
+    public void saveTask(String title, String task, int priority) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_TITLE, title);
         contentValues.put(KEY_TASK, task);
+        contentValues.put(KEY_PRIORITY, priority);
         sqLiteDatabase.insert(TABLE_TASKS, null, contentValues);
         sqLiteDatabase.close();
     }
 
     public List<Task> loadTask() {
         taskList = new ArrayList<>();
-        String[] projection = {"title", "task"};
+        String[] projection = {"title", "task", "priority"};
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query("tasks", projection, null, null,
                 null, null, null);
         while (cursor.moveToNext()) {
-            taskList.add(new Task(cursor.getString(0), cursor.getString(1)));
+            taskList.add(new Task(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
         }
+        Collections.sort(taskList);
         return taskList;
     }
 }

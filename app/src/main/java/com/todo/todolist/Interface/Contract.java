@@ -16,13 +16,13 @@ public interface Contract {
     interface Presenter {
         void getTasks();
 
-        void saveTask(String title, String task);
+        void saveTask(String title, String task, int priority);
     }
 
     interface Model {
 
         List<Task> loadTasks(Context context);
 
-        void save(String title, String task, Context context);
+        void save(String title, String task, int priority, Context context);
     }
 }

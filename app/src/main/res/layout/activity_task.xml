@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -14,12 +14,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <RadioGroup
+        android:id="@+id/rgPriority"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_high"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="1"
+            android:text="High"/>
+
+        <RadioButton
+            android:id="@+id/radio_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="1"
+            android:text="Medium"/>
+
+        <RadioButton
+            android:id="@+id/radio_low"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="1"
+            android:text="Low"/>
+
+    </RadioGroup>
+
     <Button
         android:id="@+id/btAddTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add task"
         android:layout_gravity="center"
-        android:onClick="onAddTaskClick"/>
+        android:onClick="onAddTaskClick"
+        android:text="Add task" />
 
 </LinearLayout>
