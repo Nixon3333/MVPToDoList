@@ -8,7 +8,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,8 +21,9 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:onClick="onFabClick"
-            android:src="@android:drawable/ic_menu_edit"
-            app:fabSize="normal" />
+            android:src="@drawable/ic_add_white"
+            app:fabSize="normal"
+            app:layout_behavior=".FabHideOnScroll" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -32,5 +33,5 @@
         </android.support.v7.widget.RecyclerView>
 
 
-    </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

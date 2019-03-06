@@ -20,4 +20,10 @@ public class Model implements Contract.Model {
         dbHelper = new DBHelper(context);
         dbHelper.saveTask(title, task, priority);
     }
+
+    @Override
+    public void edit(String title, String task, int priority, Context context, int position) {
+        dbHelper = new DBHelper(context);
+        dbHelper.editTask(title, task, priority, position);
+    }
 }

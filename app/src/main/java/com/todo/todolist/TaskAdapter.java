@@ -89,8 +89,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            contextMenu.add(Menu.NONE, 1, 1, "Edit");
-            contextMenu.add(Menu.NONE, 2, 2, "Delete");
+            contextMenu.add(Menu.NONE, 1, getAdapterPosition(), "Edit");
+            contextMenu.add(Menu.NONE, 2, getAdapterPosition(), "Delete");
         }
 
     }

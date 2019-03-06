@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //registerForContextMenu(recyclerView);
     }
 
     @Override
@@ -57,12 +56,13 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 
     public void onFabClick(View view) {
         Intent intent = new Intent(this, TaskActivity.class);
+        intent.putExtra("requestCode", 1);
         startActivityForResult(intent, 1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        presenter.getTasks();
+            presenter.getTasks();
     }
 
     @Override
@@ -91,10 +91,15 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case 1:
                 Log.d("Menu", "edit");
+                Intent intent = new Intent(this, TaskActivity.class);
+                intent.putExtra("requestCode", 2);
+                intent.putExtra("adapterPosition", item.getOrder());
+                startActivityForResult(intent, 2);
+
+                Log.d("Menu", String.valueOf(item.getOrder()));
                 break;
             case 2:
                 Log.d("Menu", "delete");

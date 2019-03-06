@@ -54,4 +54,12 @@
         android:onClick="onAddTaskClick"
         android:text="Add task" />
 
+    <Button
+        android:id="@+id/btEditTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="onEditTaskClick"
+        android:text="Edit task" />
+
 </LinearLayout>

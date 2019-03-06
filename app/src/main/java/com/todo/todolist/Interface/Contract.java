@@ -17,6 +17,8 @@ public interface Contract {
         void getTasks();
 
         void saveTask(String title, String task, int priority);
+
+        void editTask(String title, String task, int priority, int position);
     }
 
     interface Model {
@@ -24,5 +26,7 @@ public interface Contract {
         List<Task> loadTasks(Context context);
 
         void save(String title, String task, int priority, Context context);
+
+        void edit(String title, String task, int priority, Context context, int position);
     }
 }

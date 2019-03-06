@@ -59,7 +59,24 @@ public class DBHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             taskList.add(new Task(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
         }
+        sqLiteDatabase.close();
         Collections.sort(taskList);
         return taskList;
+    }
+
+    public void editTask(String title, String task, int priority, int position) {
+        Log.d("edit", taskList.get(position).getTitle());
+
+        String[] whereArgs = new String[3];
+        whereArgs[0] = taskList.get(position).getTitle();
+        whereArgs[1] = taskList.get(position).getTask();
+        whereArgs[2] = String.valueOf(taskList.get(position).getPriority());
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", title);
+        contentValues.put("task", task);
+        contentValues.put("priority", priority);
+        sqLiteDatabase.update("tasks", contentValues, "title = ? AND task = ? AND priority = ?", whereArgs);
+        sqLiteDatabase.close();
     }
 }
