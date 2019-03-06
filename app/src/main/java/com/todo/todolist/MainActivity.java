@@ -94,15 +94,20 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         switch (item.getItemId()) {
             case 1:
                 Log.d("Menu", "edit");
+                String[] task = presenter.getEditTask(item.getOrder());
                 Intent intent = new Intent(this, TaskActivity.class);
                 intent.putExtra("requestCode", 2);
                 intent.putExtra("adapterPosition", item.getOrder());
+                intent.putExtra("title", task[0]);
+                intent.putExtra("task", task[1]);
                 startActivityForResult(intent, 2);
 
                 Log.d("Menu", String.valueOf(item.getOrder()));
                 break;
             case 2:
                 Log.d("Menu", "delete");
+                presenter.deleteTask(item.getOrder());
+                presenter.getTasks();
                 break;
         }
         return super.onContextItemSelected(item);

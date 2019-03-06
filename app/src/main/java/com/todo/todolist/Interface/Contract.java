@@ -9,8 +9,8 @@ import java.util.List;
 public interface Contract {
 
     interface View {
-        void showTasks(List<Task> list);
-
+        default void showTasks(List<Task> list) {
+        }
     }
 
     interface Presenter {
@@ -19,6 +19,10 @@ public interface Contract {
         void saveTask(String title, String task, int priority);
 
         void editTask(String title, String task, int priority, int position);
+
+        void deleteTask(int position);
+
+        String[] getEditTask(int position);
     }
 
     interface Model {
@@ -28,5 +32,9 @@ public interface Contract {
         void save(String title, String task, int priority, Context context);
 
         void edit(String title, String task, int priority, Context context, int position);
+
+        void delete(Context context, int position);
+
+        String[] getEdit(Context context, int position);
     }
 }

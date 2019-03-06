@@ -79,4 +79,21 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update("tasks", contentValues, "title = ? AND task = ? AND priority = ?", whereArgs);
         sqLiteDatabase.close();
     }
+
+    public void deleteTask(int position) {
+        String[] whereArgs = new String[3];
+        whereArgs[0] = taskList.get(position).getTitle();
+        whereArgs[1] = taskList.get(position).getTask();
+        whereArgs[2] = String.valueOf(taskList.get(position).getPriority());
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete("tasks", "title = ? AND task = ? AND priority = ?", whereArgs);
+        sqLiteDatabase.close();
+    }
+
+    public String[] getEditTask(int position) {
+        String[] task = new String[2];
+        task[0] = taskList.get(position).getTitle();
+        task[1] = taskList.get(position).getTask();
+        return task;
+    }
 }

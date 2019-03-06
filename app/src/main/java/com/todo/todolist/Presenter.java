@@ -32,4 +32,14 @@ public class Presenter implements Contract.Presenter {
     public void editTask(String title, String task, int priority, int position) {
         model.edit(title, task, priority, context, position);
     }
+
+    @Override
+    public void deleteTask(int position) {
+        model.delete(context, position);
+    }
+
+    @Override
+    public String[] getEditTask(int position) {
+        return model.getEdit(context, position);
+    }
 }

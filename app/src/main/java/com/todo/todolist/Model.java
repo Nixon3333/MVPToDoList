@@ -26,4 +26,16 @@ public class Model implements Contract.Model {
         dbHelper = new DBHelper(context);
         dbHelper.editTask(title, task, priority, position);
     }
+
+    @Override
+    public void delete(Context context, int position) {
+        dbHelper = new DBHelper(context);
+        dbHelper.deleteTask(position);
+    }
+
+    @Override
+    public String[] getEdit(Context context, int position) {
+        dbHelper = new DBHelper(context);
+        return dbHelper.getEditTask(position);
+    }
 }

@@ -21,12 +21,12 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radio_high"
+            android:id="@+id/radio_low"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_weight="1"
-            android:text="High"/>
+            android:text="Low"/>
 
         <RadioButton
             android:id="@+id/radio_medium"
@@ -37,12 +37,12 @@
             android:text="Medium"/>
 
         <RadioButton
-            android:id="@+id/radio_low"
+            android:id="@+id/radio_high"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_weight="1"
-            android:text="Low"/>
+            android:text="High"/>
 
     </RadioGroup>
 
@@ -55,11 +55,11 @@
         android:text="Add task" />
 
     <Button
-        android:id="@+id/btEditTask"
+        android:id="@+id/btApply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:onClick="onEditTaskClick"
-        android:text="Edit task" />
+        android:text="Apply" />
 
 </LinearLayout>

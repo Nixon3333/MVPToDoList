@@ -15,7 +15,7 @@ import java.util.List;
 public class TaskActivity extends AppCompatActivity implements Contract.View {
 
     Contract.Presenter presenter;
-    Button btAddTask, btEditTask;
+    Button btAddTask, btApply;
     EditText etTitle, etTask;
     RadioGroup rgPriority;
     Bundle requestCode;
@@ -32,16 +32,19 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
 
     private void initUI() {
         btAddTask = findViewById(R.id.btAddTask);
-        btEditTask = findViewById(R.id.btEditTask);
+        btApply = findViewById(R.id.btApply);
         etTask = findViewById(R.id.etTask);
         etTitle = findViewById(R.id.etTitle);
         rgPriority = findViewById(R.id.rgPriority);
         rgPriority.check(R.id.radio_medium);
         requestCode = getIntent().getExtras();
         if (requestCode.get("requestCode").equals(1))
+            btApply.setVisibility(View.GONE);
+        if (requestCode.get("requestCode").equals(2)) {
             btAddTask.setVisibility(View.GONE);
-        if (requestCode.get("requestCode").equals(2))
-            btAddTask.setVisibility(View.GONE);
+            etTitle.setText(getIntent().getStringExtra("title"));
+            etTask.setText(getIntent().getStringExtra("task"));
+        }
     }
 
     public void onAddTaskClick(View view) {
@@ -80,10 +83,5 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         presenter.editTask(etTitle.getText().toString(), etTask.getText().toString(), priority, position);
         setResult(RESULT_OK);
         finish();
-    }
-
-    @Override
-    public void showTasks(List<Task> list) {
-
     }
 }
