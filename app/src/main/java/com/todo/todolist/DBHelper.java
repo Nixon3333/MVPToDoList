@@ -59,6 +59,7 @@ public class DBHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             taskList.add(new Task(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
         }
+        cursor.close();
         sqLiteDatabase.close();
         Collections.sort(taskList);
         return taskList;

@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp">
 
     <EditText
         android:id="@+id/etTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="Title" />
 
     <EditText
         android:id="@+id/etTask"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="Task"
+        app:layout_constraintTop_toBottomOf="@id/etTitle"/>
 
     <RadioGroup
         android:id="@+id/rgPriority"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTask">
 
         <RadioButton
             android:id="@+id/radio_low"
@@ -26,15 +37,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_weight="1"
-            android:text="Low"/>
+            android:text="Low" />
 
         <RadioButton
             android:id="@+id/radio_medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
             android:layout_weight="1"
-            android:text="Medium"/>
+            android:text="Medium" />
 
         <RadioButton
             android:id="@+id/radio_high"
@@ -42,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_weight="1"
-            android:text="High"/>
+            android:text="High" />
 
     </RadioGroup>
 
@@ -50,16 +60,29 @@
         android:id="@+id/btAddTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center|bottom"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
         android:onClick="onAddTaskClick"
-        android:text="Add task" />
+        android:text="Add task"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgPriority" />
 
     <Button
         android:id="@+id/btApply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
         android:onClick="onEditTaskClick"
-        android:text="Apply" />
+        android:text="Apply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgPriority" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

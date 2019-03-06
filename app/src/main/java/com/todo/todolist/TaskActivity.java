@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.todo.todolist.Interface.Contract;
 
@@ -60,9 +61,13 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
                 priority = 3;
                 break;
         }
-        presenter.saveTask(etTitle.getText().toString(), etTask.getText().toString(), priority);
-        setResult(RESULT_OK);
-        finish();
+        if (etTitle.getText().toString().equals("") & etTask.getText().toString().equals(""))
+            Toast.makeText(this, "Task is empty", Toast.LENGTH_LONG).show();
+        else {
+            presenter.saveTask(etTitle.getText().toString(), etTask.getText().toString(), priority);
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
     public void onEditTaskClick(View view) {
