@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
     RecyclerView recyclerView;
     Toolbar toolbar;
     TaskAdapter taskAdapter;
+    int ADD_REQUEST_CODE = 1;
+    int EDIT_REQUEST_CODE = 2;
 
 
     @Override
@@ -56,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 
     public void onFabClick(View view) {
         Intent intent = new Intent(this, TaskActivity.class);
-        intent.putExtra("requestCode", 1);
-        startActivityForResult(intent, 1);
+        intent.putExtra("requestCode", ADD_REQUEST_CODE);
+        startActivityForResult(intent, ADD_REQUEST_CODE);
     }
 
     @Override
@@ -96,11 +98,12 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
                 Log.d("Menu", "edit");
                 String[] task = presenter.getEditTask(item.getOrder());
                 Intent intent = new Intent(this, TaskActivity.class);
-                intent.putExtra("requestCode", 2);
+                intent.putExtra("requestCode", EDIT_REQUEST_CODE);
                 intent.putExtra("adapterPosition", item.getOrder());
                 intent.putExtra("title", task[0]);
                 intent.putExtra("task", task[1]);
-                startActivityForResult(intent, 2);
+                intent.putExtra("date", task[2]);
+                startActivityForResult(intent, EDIT_REQUEST_CODE);
 
                 Log.d("Menu", String.valueOf(item.getOrder()));
                 break;

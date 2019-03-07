@@ -16,9 +16,9 @@ public class Model implements Contract.Model {
         return dbHelper.loadTask();
     }
 
-    public void save(String title, String task, int priority, Context context) {
+    public void save(Task task, Context context) {
         dbHelper = new DBHelper(context);
-        dbHelper.saveTask(title, task, priority);
+        dbHelper.saveTask(task);
     }
 
     @Override

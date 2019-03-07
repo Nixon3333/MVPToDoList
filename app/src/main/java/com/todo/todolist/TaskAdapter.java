@@ -32,6 +32,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder taskViewHolder, int i) {
         taskViewHolder.tvTitle.setText(taskList.get(i).getTitle());
         taskViewHolder.tvTask.setText(taskList.get(i).getTask());
+        taskViewHolder.tvDate.setText(taskList.get(i).getDate());
         switch (taskList.get(i).getPriority()) {
             case 1:
                 taskViewHolder.imagePriority.setImageResource(R.drawable.shape_circle_red);
@@ -76,12 +77,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         TextView tvTitle;
         TextView tvTask;
+        TextView tvDate;
         ImageView imagePriority;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvTask = itemView.findViewById(R.id.tvTask);
+            tvDate = itemView.findViewById(R.id.tvDate);
             imagePriority = itemView.findViewById(R.id.imagePriority);
 
             itemView.setOnCreateContextMenuListener(this);

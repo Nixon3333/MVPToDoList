@@ -21,6 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_TITLE = "title";
     private static final String KEY_TASK = "task";
     private static final String KEY_PRIORITY = "priority";
+    private static final String KEY_DATE = "date";
 
     static List<Task> taskList = new ArrayList<>();
 
@@ -31,7 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("create table " + TABLE_TASKS + "(" + KEY_ID
-                + " integer primary key autoincrement," + KEY_TITLE + " text," + KEY_TASK + " text," + KEY_PRIORITY + " integer" + ")");
+                + " integer primary key autoincrement," + KEY_TITLE + " text," + KEY_TASK + " text," + KEY_PRIORITY + " integer," + KEY_DATE + " text" + ")");
     }
 
     @Override
@@ -40,24 +41,25 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void saveTask(String title, String task, int priority) {
+    public void saveTask(Task task) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(KEY_TITLE, title);
-        contentValues.put(KEY_TASK, task);
-        contentValues.put(KEY_PRIORITY, priority);
+        contentValues.put(KEY_TITLE, task.getTitle());
+        contentValues.put(KEY_TASK, task.getTask());
+        contentValues.put(KEY_PRIORITY, task.getPriority());
+        contentValues.put(KEY_DATE, task.getDate());
         sqLiteDatabase.insert(TABLE_TASKS, null, contentValues);
         sqLiteDatabase.close();
     }
 
     public List<Task> loadTask() {
         taskList = new ArrayList<>();
-        String[] projection = {"title", "task", "priority"};
+        String[] projection = {"title", "task", "priority", "date"};
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query("tasks", projection, null, null,
                 null, null, null);
         while (cursor.moveToNext()) {
-            taskList.add(new Task(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
+            taskList.add(new Task(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3)));
         }
         cursor.close();
         sqLiteDatabase.close();
@@ -92,9 +94,10 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public String[] getEditTask(int position) {
-        String[] task = new String[2];
+        String[] task = new String[3];
         task[0] = taskList.get(position).getTitle();
         task[1] = taskList.get(position).getTask();
+        task[2] = taskList.get(position).getDate();
         return task;
     }
 }

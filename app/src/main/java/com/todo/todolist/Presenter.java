@@ -24,8 +24,8 @@ public class Presenter implements Contract.Presenter {
     }
 
     @Override
-    public void saveTask(String title, String task, int priority) {
-        model.save(title, task, priority, context);
+    public void saveTask(Task task) {
+        model.save(task, context);
     }
 
     @Override
