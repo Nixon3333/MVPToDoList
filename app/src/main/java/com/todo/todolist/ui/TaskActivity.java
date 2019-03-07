@@ -18,6 +18,7 @@ import com.todo.todolist.model.Task;
 import com.todo.todolist.presenter.Presenter;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class TaskActivity extends AppCompatActivity implements Contract.View {
 
@@ -133,6 +134,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
                     etDate.setText(editTextDateParam);
                     Log.d("Date", editTextDateParam);
                 }, mYear, mMonth, mDay);
+        datePickerDialog.getDatePicker().setMinDate(new Date().getTime());
         datePickerDialog.show();
     }
 
