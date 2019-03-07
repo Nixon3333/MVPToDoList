@@ -21,6 +21,7 @@ public class BroadcastManager extends BroadcastReceiver {
 
     Model model;
     NotificationCompat.Builder notifBuilder;
+    boolean showNotification = false;
 
 
     @Override
@@ -36,18 +37,19 @@ public class BroadcastManager extends BroadcastReceiver {
         for (Task task : dates) {
             Log.d("Millis", String.valueOf(dateToMillis(task.getDate())) + " : " + task.getDate());
             Log.d("MillisCur", String.valueOf(System.currentTimeMillis()) + " : " + Calendar.getInstance().getTime());
-            if (dateToMillis(task.getDate()) - System.currentTimeMillis() < 50400000) {
+            Log.d("MillisDif", String.valueOf(dateToMillis(task.getDate()) - System.currentTimeMillis()));
+            if (dateToMillis(task.getDate()) - System.currentTimeMillis() <= 86400000 & dateToMillis(task.getDate()) - System.currentTimeMillis() >= -10000) {
 
-                sb.append(task.getDate()).append(" ");
-
+                sb.append(task.getTask()).append(", ");
+                showNotification = true;
             }
         }
         notifBuilder = new NotificationCompat.Builder(context)
 
-        .setSmallIcon(R.drawable.ic_add_white)
-        .setContentTitle("My not")
-        .setContentText(sb)
-        .setChannelId("Channel");
+                .setSmallIcon(R.drawable.ic_add_white)
+                .setContentTitle("Coming tasks")
+                .setContentText(sb)
+                .setChannelId("Channel");
 
         NotificationChannel mChannel = null;
 
@@ -57,9 +59,8 @@ public class BroadcastManager extends BroadcastReceiver {
             mNotificationManager.createNotificationChannel(mChannel);
         }
 
-
-        mNotificationManager.notify(1, notifBuilder.build());
-        Toast.makeText(context, sb.toString(), Toast.LENGTH_LONG).show();
+        if (showNotification)
+            mNotificationManager.notify(1, notifBuilder.build());
 
     }
 

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, BroadcastManager.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 86400000 * 2, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 86400000, pendingIntent);
     }
 
     private void initUI() {
