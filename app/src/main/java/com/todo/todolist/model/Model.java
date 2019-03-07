@@ -39,4 +39,10 @@ public class Model implements Contract.Model {
         dbHelper = new DBHelper(context);
         return dbHelper.getEditTask(position);
     }
+
+    @Override
+    public List<String> getDates(Context context) {
+        dbHelper = new DBHelper(context);
+        return dbHelper.getTaskDates();
+    }
 }

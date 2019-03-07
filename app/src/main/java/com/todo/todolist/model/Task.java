@@ -1,7 +1,7 @@
 package com.todo.todolist.model;
 
 import android.support.annotation.NonNull;
-
+import java.util.Calendar;
 import java.util.Date;
 
 public class Task implements Comparable<Task> {
@@ -45,8 +45,9 @@ public class Task implements Comparable<Task> {
     }
 
     private Date convertDate(String date) {
+        Calendar calendar = Calendar.getInstance();
         String[] dateArr = date.split("\\.");
-        Date myDate = new Date(Integer.valueOf(dateArr[2]), Integer.valueOf(dateArr[1]), Integer.valueOf(dateArr[0]));
-        return myDate;
+        calendar.set(Integer.valueOf(dateArr[2]) + 1900, Integer.valueOf(dateArr[1]), Integer.valueOf(dateArr[0]));
+        return calendar.getTime();
     }
 }

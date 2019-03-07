@@ -26,6 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_DATE = "date";
 
     private static List<Task> taskList = new ArrayList<>();
+    private List<String> datesList = new ArrayList<>();
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -103,5 +104,19 @@ public class DBHelper extends SQLiteOpenHelper {
         task[1] = taskList.get(position).getTask();
         task[2] = taskList.get(position).getDate();
         return task;
+    }
+
+    public List<String> getTaskDates() {
+        datesList = new ArrayList<>();
+        String[] projection = {"date"};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.query("tasks", projection, null, null,
+                null, null, null);
+        while (cursor.moveToNext()) {
+            datesList.add(cursor.getString(0));
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return datesList;
     }
 }

@@ -36,5 +36,7 @@ public interface Contract {
         void delete(Context context, int position);
 
         String[] getEdit(Context context, int position);
+
+        List<String> getDates(Context context);
     }
 }

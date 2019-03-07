@@ -1,5 +1,8 @@
 package com.todo.todolist.ui;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.todo.todolist.BroadcastManager;
 import com.todo.todolist.R;
 import com.todo.todolist.adapter.TaskAdapter;
 import com.todo.todolist.contractApi.Contract;
 import com.todo.todolist.model.Task;
 import com.todo.todolist.presenter.Presenter;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -36,12 +41,20 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setAlarm();
 
         initUI();
 
         presenter = new Presenter(this, this);
         presenter.getTasks();
 
+    }
+
+    private void setAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, BroadcastManager.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis(), pendingIntent);
     }
 
     private void initUI() {
