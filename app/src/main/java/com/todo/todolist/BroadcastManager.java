@@ -34,8 +34,6 @@ public class BroadcastManager extends BroadcastReceiver {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         for (Task task : dates) {
-            //Log.d("Dates", date);
-            //Log.d("Dates", String.valueOf(dateToMillis(date)));
             Log.d("Millis", String.valueOf(dateToMillis(task.getDate())) + " : " + task.getDate());
             Log.d("MillisCur", String.valueOf(System.currentTimeMillis()) + " : " + Calendar.getInstance().getTime());
             if (dateToMillis(task.getDate()) - System.currentTimeMillis() < 50400000) {
@@ -45,19 +43,21 @@ public class BroadcastManager extends BroadcastReceiver {
             }
         }
         notifBuilder = new NotificationCompat.Builder(context)
-        .setSmallIcon(R.drawable.ic_launcher_foreground)
+
+        .setSmallIcon(R.drawable.ic_add_white)
         .setContentTitle("My not")
         .setContentText(sb)
         .setChannelId("Channel");
+
         NotificationChannel mChannel = null;
+
         int importance = NotificationManager.IMPORTANCE_HIGH;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mChannel = new NotificationChannel("Channel", "MyChannel", importance);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mNotificationManager.createNotificationChannel(mChannel);
         }
+
+
         mNotificationManager.notify(1, notifBuilder.build());
         Toast.makeText(context, sb.toString(), Toast.LENGTH_LONG).show();
 
