@@ -1,4 +1,4 @@
-package com.todo.todolist;
+package com.todo.todolist.model.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.todo.todolist.model.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_PRIORITY = "priority";
     private static final String KEY_DATE = "date";
 
-    static List<Task> taskList = new ArrayList<>();
+    private static List<Task> taskList = new ArrayList<>();
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -67,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return taskList;
     }
 
-    public void editTask(String title, String task, int priority, int position) {
+    public void editTask(Task task, int position) {
         Log.d("edit", taskList.get(position).getTitle());
 
         String[] whereArgs = new String[3];
@@ -76,20 +78,22 @@ public class DBHelper extends SQLiteOpenHelper {
         whereArgs[2] = String.valueOf(taskList.get(position).getPriority());
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("title", title);
-        contentValues.put("task", task);
-        contentValues.put("priority", priority);
+        contentValues.put("title", task.getTitle());
+        contentValues.put("task", task.getTask());
+        contentValues.put("priority", task.getPriority());
+        contentValues.put("date", task.getDate());
         sqLiteDatabase.update("tasks", contentValues, "title = ? AND task = ? AND priority = ?", whereArgs);
         sqLiteDatabase.close();
     }
 
     public void deleteTask(int position) {
-        String[] whereArgs = new String[3];
+        String[] whereArgs = new String[4];
         whereArgs[0] = taskList.get(position).getTitle();
         whereArgs[1] = taskList.get(position).getTask();
         whereArgs[2] = String.valueOf(taskList.get(position).getPriority());
+        whereArgs[3] = taskList.get(position).getDate();
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.delete("tasks", "title = ? AND task = ? AND priority = ?", whereArgs);
+        sqLiteDatabase.delete("tasks", "title = ? AND task = ? AND priority = ? AND date = ?", whereArgs);
         sqLiteDatabase.close();
     }
 

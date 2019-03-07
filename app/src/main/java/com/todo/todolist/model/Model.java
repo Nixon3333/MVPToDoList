@@ -1,14 +1,15 @@
-package com.todo.todolist;
+package com.todo.todolist.model;
 
 import android.content.Context;
 
-import com.todo.todolist.Interface.Contract;
+import com.todo.todolist.contractApi.Contract;
+import com.todo.todolist.model.db.DBHelper;
 
 import java.util.List;
 
 public class Model implements Contract.Model {
 
-    DBHelper dbHelper;
+    private DBHelper dbHelper;
 
     @Override
     public List<Task> loadTasks(Context context) {
@@ -22,9 +23,9 @@ public class Model implements Contract.Model {
     }
 
     @Override
-    public void edit(String title, String task, int priority, Context context, int position) {
+    public void edit(Task task, Context context, int position) {
         dbHelper = new DBHelper(context);
-        dbHelper.editTask(title, task, priority, position);
+        dbHelper.editTask(task, position);
     }
 
     @Override

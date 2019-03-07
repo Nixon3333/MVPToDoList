@@ -1,25 +1,25 @@
-package com.todo.todolist;
+package com.todo.todolist.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import com.todo.todolist.R;
+import com.todo.todolist.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    List<Task> taskList = new ArrayList<>();
-    List<Task> copyTaskList;
+    private List<Task> taskList = new ArrayList<>();
+    private List<Task> copyTaskList;
 
     @NonNull
     @Override
@@ -80,7 +80,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView tvDate;
         ImageView imagePriority;
 
-        public TaskViewHolder(@NonNull View itemView) {
+        TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvTask = itemView.findViewById(R.id.tvTask);

@@ -1,4 +1,4 @@
-package com.todo.todolist;
+package com.todo.todolist.model;
 
 import android.support.annotation.NonNull;
 
@@ -6,10 +6,10 @@ import java.util.Date;
 
 public class Task implements Comparable<Task> {
 
-    String title;
-    String task;
-    int priority;
-    String date;
+    private String title;
+    private String task;
+    private int priority;
+    private String date;
 
     public Task(String title, String task, int priority, String date) {
         this.title = title;

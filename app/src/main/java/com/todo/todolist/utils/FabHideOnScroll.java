@@ -1,4 +1,4 @@
-package com.todo.todolist;
+package com.todo.todolist.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.todo.todolist.R;
 
 import static android.view.View.INVISIBLE;
 

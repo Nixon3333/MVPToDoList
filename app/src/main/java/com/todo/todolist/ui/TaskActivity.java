@@ -1,4 +1,4 @@
-package com.todo.todolist;
+package com.todo.todolist.ui;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -8,24 +8,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.todo.todolist.Interface.Contract;
+import com.todo.todolist.R;
+import com.todo.todolist.contractApi.Contract;
+import com.todo.todolist.model.Task;
+import com.todo.todolist.presenter.Presenter;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class TaskActivity extends AppCompatActivity implements Contract.View {
 
-    Contract.Presenter presenter;
-    Button btAddTask, btApply;
-    EditText etTitle, etTask, etDate;
-    RadioGroup rgPriority;
-    Bundle requestCode;
+    private Contract.Presenter presenter;
+    private Button btAddTask, btApply;
+    private EditText etTitle, etTask, etDate;
+    private RadioGroup rgPriority;
+    private Bundle requestCode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,7 +97,8 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         }
         requestCode = getIntent().getExtras();
         int position = (Integer) requestCode.get("adapterPosition");
-        presenter.editTask(etTitle.getText().toString(), etTask.getText().toString(), priority, position);
+        Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString());
+        presenter.editTask(task, position);
         setResult(RESULT_OK);
         finish();
     }
@@ -139,7 +140,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         callDatePicker();
     }
 
-    public String getTodayDate() {
+    private String getTodayDate() {
         final Calendar cal = Calendar.getInstance();
         int mYear = cal.get(Calendar.YEAR);
         int mMonth = cal.get(Calendar.MONTH) + 1;

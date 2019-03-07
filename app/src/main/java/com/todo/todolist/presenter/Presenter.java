@@ -1,15 +1,17 @@
-package com.todo.todolist;
+package com.todo.todolist.presenter;
 
 import android.content.Context;
 
-import com.todo.todolist.Interface.Contract;
+import com.todo.todolist.contractApi.Contract;
+import com.todo.todolist.model.Model;
+import com.todo.todolist.model.Task;
 
 public class Presenter implements Contract.Presenter {
 
 
-    Contract.View view;
-    Contract.Model model;
-    Context context;
+    private Contract.View view;
+    private Contract.Model model;
+    private Context context;
 
 
     public Presenter(Contract.View view, Context context) {
@@ -29,8 +31,8 @@ public class Presenter implements Contract.Presenter {
     }
 
     @Override
-    public void editTask(String title, String task, int priority, int position) {
-        model.edit(title, task, priority, context, position);
+    public void editTask(Task task, int position) {
+        model.edit(task, context, position);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.todo.todolist;
+package com.todo.todolist.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,24 +8,27 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.todo.todolist.Interface.Contract;
+import com.todo.todolist.R;
+import com.todo.todolist.adapter.TaskAdapter;
+import com.todo.todolist.contractApi.Contract;
+import com.todo.todolist.model.Task;
+import com.todo.todolist.presenter.Presenter;
 
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements Contract.View {
 
-    Contract.Presenter presenter;
-    RecyclerView recyclerView;
-    Toolbar toolbar;
-    TaskAdapter taskAdapter;
-    int ADD_REQUEST_CODE = 1;
-    int EDIT_REQUEST_CODE = 2;
+    private Contract.Presenter presenter;
+    private RecyclerView recyclerView;
+    private Toolbar toolbar;
+    private TaskAdapter taskAdapter;
+    private int ADD_REQUEST_CODE = 1;
+    private int EDIT_REQUEST_CODE = 2;
 
 
     @Override

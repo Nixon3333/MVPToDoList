@@ -1,8 +1,8 @@
-package com.todo.todolist.Interface;
+package com.todo.todolist.contractApi;
 
 import android.content.Context;
 
-import com.todo.todolist.Task;
+import com.todo.todolist.model.Task;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface Contract {
 
         void saveTask(Task task);
 
-        void editTask(String title, String task, int priority, int position);
+        void editTask(Task task, int position);
 
         void deleteTask(int position);
 
@@ -31,7 +31,7 @@ public interface Contract {
 
         void save(Task task, Context context);
 
-        void edit(String title, String task, int priority, Context context, int position);
+        void edit(Task task, Context context, int position);
 
         void delete(Context context, int position);
 
