@@ -1,6 +1,5 @@
 package com.todo.todolist;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.todo.todolist.model.Model;
 import com.todo.todolist.model.Task;
@@ -40,22 +38,23 @@ public class BroadcastManager extends BroadcastReceiver {
             Log.d("MillisDif", String.valueOf(dateToMillis(task.getDate()) - System.currentTimeMillis()));
             if (dateToMillis(task.getDate()) - System.currentTimeMillis() <= 86400000 & dateToMillis(task.getDate()) - System.currentTimeMillis() >= -10000) {
 
-                sb.append(task.getTask()).append(", ");
+                sb.append(task.getTitle()).append(", ");
                 showNotification = true;
             }
         }
+        //sb = sb.substring(0, sb.length() - 3)
         notifBuilder = new NotificationCompat.Builder(context)
 
                 .setSmallIcon(R.drawable.ic_add_white)
                 .setContentTitle("Coming tasks")
-                .setContentText(sb)
+                .setContentText(sb.substring(0, sb.length() - 3))
                 .setChannelId("Channel");
 
         NotificationChannel mChannel = null;
 
         int importance = NotificationManager.IMPORTANCE_HIGH;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mChannel = new NotificationChannel("Channel", "MyChannel", importance);
+            mChannel = new NotificationChannel("Channel-01", "MyChannel", importance);
             mNotificationManager.createNotificationChannel(mChannel);
         }
 
