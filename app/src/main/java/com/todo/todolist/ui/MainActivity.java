@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.todo.todolist.BroadcastManager;
 import com.todo.todolist.R;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private TaskAdapter taskAdapter;
+    private TextView tvToolbarItemCount;
     private int ADD_REQUEST_CODE = 1;
     private int EDIT_REQUEST_CODE = 2;
 
@@ -69,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         taskAdapter = new TaskAdapter();
         taskAdapter.setTaskList(list);
         recyclerView.setAdapter(taskAdapter);
+        tvToolbarItemCount = findViewById(R.id.tvToolbarItemCount);
+        tvToolbarItemCount.setText(String.valueOf(recyclerView.getAdapter().getItemCount()));
     }
 
 

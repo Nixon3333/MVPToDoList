@@ -23,7 +23,7 @@
             android:onClick="onFabClick"
             android:src="@drawable/ic_add_white"
             app:fabSize="normal"
-            app:layout_behavior=".FabHideOnScroll" />
+            app:layout_behavior=".utils.FabHideOnScroll" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
