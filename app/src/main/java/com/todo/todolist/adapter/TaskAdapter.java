@@ -40,6 +40,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         else {
             taskViewHolder.tvTitle.setPaintFlags(0);
             taskViewHolder.tvTask.setPaintFlags(0);
+            taskViewHolder.tvDate.setVisibility(View.VISIBLE);
+            taskViewHolder.imagePriority.setVisibility(View.VISIBLE);
         }
         taskViewHolder.tvTitle.setText(taskList.get(i).getTitle());
         taskViewHolder.tvTask.setText(taskList.get(i).getTask());

@@ -2,11 +2,13 @@ package com.todo.todolist.ui;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -43,6 +45,8 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         btApply = findViewById(R.id.btApply);
         etTask = findViewById(R.id.etTask);
         etTitle = findViewById(R.id.etTitle);
+        showKeyboard();
+        etTitle.requestFocus();
         etDate = findViewById(R.id.etDate);
 
         rgPriority = findViewById(R.id.rgPriority);
@@ -60,7 +64,13 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         }
     }
 
+    private void showKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
     public void onAddTaskClick(View view) {
+        hideKeyboard();
         int priority = 0;
         switch (rgPriority.getCheckedRadioButtonId()) {
             case R.id.radio_high:
@@ -83,7 +93,13 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         }
     }
 
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
+    }
+
     public void onEditTaskClick(View view) {
+        hideKeyboard();
         int priority = 0;
         switch (rgPriority.getCheckedRadioButtonId()) {
             case R.id.radio_high:
@@ -139,6 +155,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
     }
 
     public void onDateClick(View view) {
+        hideKeyboard();
         callDatePicker();
     }
 

@@ -9,7 +9,9 @@
         android:id="@+id/etTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title" />
+        android:hint="Title"
+        android:imeOptions="actionNext"
+        android:singleLine="true"/>
 
     <EditText
         android:id="@+id/etTask"
