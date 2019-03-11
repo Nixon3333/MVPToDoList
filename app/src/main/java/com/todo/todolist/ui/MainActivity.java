@@ -72,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         taskAdapter.setTaskList(list);
         recyclerView.setAdapter(taskAdapter);
         tvItemCount = findViewById(R.id.tvItemCount);
-        tvItemCount.setText("Notes count : " + String.valueOf(recyclerView.getAdapter().getItemCount()));
+        tvItemCount.setText("Notes count : " + String.valueOf(getItemCount(list)) +
+        "Notes done : " + String.valueOf(getDoneItemCount(list)));
     }
 
 
@@ -149,5 +150,23 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     public void onDialogPositiveClick(DialogFragment dialogFragment, int position) {
         presenter.deleteTask(position);
         presenter.getTasks();
+    }
+
+    private int getDoneItemCount(List<Task> list) {
+        int count = 0;
+        for (Task task : list) {
+            if (task.isDone() == 1)
+                count++;
+        }
+        return count;
+    }
+
+    private int getItemCount(List<Task> list) {
+        int count = 0;
+        for (Task task : list) {
+            if (task.isDone() == 0)
+                count++;
+        }
+        return count;
     }
 }
