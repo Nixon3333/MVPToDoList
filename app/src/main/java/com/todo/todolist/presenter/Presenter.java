@@ -44,4 +44,9 @@ public class Presenter implements Contract.Presenter {
     public String[] getEditTask(int position) {
         return model.getEdit(context, position);
     }
+
+    @Override
+    public void switchDone(int position) {
+        model.switchDone(context, position);
+    }
 }

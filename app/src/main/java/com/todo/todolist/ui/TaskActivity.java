@@ -76,7 +76,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         if (etTitle.getText().toString().equals("") & etTask.getText().toString().equals(""))
             Toast.makeText(this, "Task is empty", Toast.LENGTH_LONG).show();
         else {
-            Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString());
+            Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0);
             presenter.saveTask(task);
             setResult(RESULT_OK);
             finish();
@@ -98,7 +98,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         }
         requestCode = getIntent().getExtras();
         int position = (Integer) requestCode.get("adapterPosition");
-        Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString());
+        Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0);
         presenter.editTask(task, position);
         setResult(RESULT_OK);
         finish();

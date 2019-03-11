@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,18 +23,18 @@ import com.todo.todolist.adapter.TaskAdapter;
 import com.todo.todolist.contractApi.Contract;
 import com.todo.todolist.model.Task;
 import com.todo.todolist.presenter.Presenter;
+import com.todo.todolist.utils.DeleteTaskDialogFragment;
 
-import java.util.Calendar;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements Contract.View {
+public class MainActivity extends AppCompatActivity implements Contract.View, DeleteTaskDialogFragment.MyDialogListener {
 
     private Contract.Presenter presenter;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private TaskAdapter taskAdapter;
-    private TextView tvToolbarItemCount;
+    private TextView tvItemCount;
     private int ADD_REQUEST_CODE = 1;
     private int EDIT_REQUEST_CODE = 2;
 
@@ -71,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         taskAdapter = new TaskAdapter();
         taskAdapter.setTaskList(list);
         recyclerView.setAdapter(taskAdapter);
-        tvToolbarItemCount = findViewById(R.id.tvToolbarItemCount);
-        tvToolbarItemCount.setText(String.valueOf(recyclerView.getAdapter().getItemCount()));
+        tvItemCount = findViewById(R.id.tvItemCount);
+        tvItemCount.setText("Notes count : " + String.valueOf(recyclerView.getAdapter().getItemCount()));
     }
 
 
@@ -115,6 +116,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
+                presenter.switchDone(item.getOrder());
+                presenter.getTasks();
+                break;
+            case 2:
                 Log.d("Menu", "edit");
                 String[] task = presenter.getEditTask(item.getOrder());
                 Intent intent = new Intent(this, TaskActivity.class);
@@ -127,12 +132,22 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 
                 Log.d("Menu", String.valueOf(item.getOrder()));
                 break;
-            case 2:
+            case 3:
                 Log.d("Menu", "delete");
-                presenter.deleteTask(item.getOrder());
-                presenter.getTasks();
+                DeleteTaskDialogFragment dialogFragment = new DeleteTaskDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", item.getOrder());
+                dialogFragment.setArguments(bundle);
+                dialogFragment.show(getSupportFragmentManager(), "tag");
+
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialogFragment, int position) {
+        presenter.deleteTask(position);
+        presenter.getTasks();
     }
 }

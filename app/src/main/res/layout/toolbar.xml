@@ -6,10 +6,10 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimaryDark">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/tvToolbarItemCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello"/>
+        android:text="Hello"/>-->
 
 </android.support.v7.widget.Toolbar>

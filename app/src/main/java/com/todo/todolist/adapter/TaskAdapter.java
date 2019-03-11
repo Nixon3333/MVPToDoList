@@ -1,5 +1,6 @@
 package com.todo.todolist.adapter;
 
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -30,6 +31,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder taskViewHolder, int i) {
+        if (taskList.get(i).isDone() == 1) {
+            taskViewHolder.tvTitle.setPaintFlags(taskViewHolder.tvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            taskViewHolder.tvTask.setPaintFlags(taskViewHolder.tvTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            taskViewHolder.tvDate.setVisibility(View.GONE);
+            taskViewHolder.imagePriority.setVisibility(View.GONE);
+        }
+        else {
+            taskViewHolder.tvTitle.setPaintFlags(0);
+            taskViewHolder.tvTask.setPaintFlags(0);
+        }
         taskViewHolder.tvTitle.setText(taskList.get(i).getTitle());
         taskViewHolder.tvTask.setText(taskList.get(i).getTask());
         taskViewHolder.tvDate.setText(taskList.get(i).getDate());
@@ -92,8 +103,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            contextMenu.add(Menu.NONE, 1, getAdapterPosition(), "Edit");
-            contextMenu.add(Menu.NONE, 2, getAdapterPosition(), "Delete");
+            if (taskList.get(getAdapterPosition()).isDone() == 1)
+                contextMenu.add(Menu.NONE, 1, getAdapterPosition(), "Undone");
+            else
+                contextMenu.add(Menu.NONE, 1, getAdapterPosition(), "Done");
+            contextMenu.add(Menu.NONE, 2, getAdapterPosition(), "Edit");
+            contextMenu.add(Menu.NONE, 3, getAdapterPosition(), "Delete");
         }
 
     }

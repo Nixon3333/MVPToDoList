@@ -43,12 +43,6 @@ public class BroadcastManager extends BroadcastReceiver {
             }
         }
         //sb = sb.substring(0, sb.length() - 3)
-        notifBuilder = new NotificationCompat.Builder(context)
-
-                .setSmallIcon(R.drawable.ic_add_white)
-                .setContentTitle("Coming tasks")
-                .setContentText(sb.substring(0, sb.length() - 2))
-                .setChannelId("Channel");
 
         NotificationChannel mChannel = null;
 
@@ -58,8 +52,16 @@ public class BroadcastManager extends BroadcastReceiver {
             mNotificationManager.createNotificationChannel(mChannel);
         }
 
-        if (showNotification)
+        if (showNotification) {
+            notifBuilder = new NotificationCompat.Builder(context)
+
+                    .setSmallIcon(R.drawable.ic_add_white)
+                    .setContentTitle("Coming tasks")
+                    .setContentText(sb.substring(0, sb.length() - 2))
+                    .setChannelId("Channel");
+
             mNotificationManager.notify(1, notifBuilder.build());
+        }
 
     }
 
