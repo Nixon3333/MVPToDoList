@@ -11,13 +11,15 @@
         android:layout_height="wrap_content"
         android:hint="Title"
         android:imeOptions="actionNext"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:inputType="textCapSentences"/>
 
     <EditText
         android:id="@+id/etTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Task"
+        android:inputType="textCapSentences"
         app:layout_constraintTop_toBottomOf="@id/etTitle"/>
 
     <EditText
