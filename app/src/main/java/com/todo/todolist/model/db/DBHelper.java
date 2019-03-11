@@ -76,13 +76,13 @@ public class DBHelper extends SQLiteOpenHelper {
         return taskList;
     }
 
-    public void editTask(Task task, int position) {
+    public void editTask(Task task, int position, List<Task> list) {
         Log.d("edit", taskList.get(position).getTitle());
 
         String[] whereArgs = new String[3];
-        whereArgs[0] = taskList.get(position).getTitle();
-        whereArgs[1] = taskList.get(position).getTask();
-        whereArgs[2] = String.valueOf(taskList.get(position).getPriority());
+        whereArgs[0] = list.get(position).getTitle();
+        whereArgs[1] = list.get(position).getTask();
+        whereArgs[2] = String.valueOf(list.get(position).getPriority());
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", task.getTitle());
@@ -93,27 +93,27 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void deleteTask(int position) {
+    public void deleteTask(int position, List<Task> list) {
         String[] whereArgs = new String[4];
-        whereArgs[0] = taskList.get(position).getTitle();
-        whereArgs[1] = taskList.get(position).getTask();
-        whereArgs[2] = String.valueOf(taskList.get(position).getPriority());
-        whereArgs[3] = taskList.get(position).getDate();
+        whereArgs[0] = list.get(position).getTitle();
+        whereArgs[1] = list.get(position).getTask();
+        whereArgs[2] = String.valueOf(list.get(position).getPriority());
+        whereArgs[3] = list.get(position).getDate();
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete("tasks", "title = ? AND task = ? AND priority = ? AND date = ?", whereArgs);
         sqLiteDatabase.close();
     }
 
-    public String[] getEditTask(int position) {
+    public String[] getEditTask(int position, List<Task> list) {
         String[] task = new String[4];
-        task[0] = taskList.get(position).getTitle();
-        task[1] = taskList.get(position).getTask();
-        task[2] = taskList.get(position).getDate();
-        task[3] = String.valueOf(taskList.get(position).getPriority());
+        task[0] = list.get(position).getTitle();
+        task[1] = list.get(position).getTask();
+        task[2] = list.get(position).getDate();
+        task[3] = String.valueOf(list.get(position).getPriority());
         return task;
     }
 
-    public List<String> getTaskDates() {
+    /*public List<String> getTaskDates() {
         datesList = new ArrayList<>();
         String[] projection = {"date"};
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -125,10 +125,10 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         sqLiteDatabase.close();
         return datesList;
-    }
+    }*/
 
-    public void switchDone(int position) {
-        Task task = taskList.get(position);
+    public void switchDone(int position, List<Task> list) {
+        Task task = list.get(position);
         String[] whereArgs = new String[4];
         whereArgs[0] = task.getTitle();
         whereArgs[1] = task.getTask();
@@ -147,4 +147,5 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update("tasks", contentValues, "title = ? AND task = ? AND priority = ? AND date = ?", whereArgs);
         sqLiteDatabase.close();
     }
+
 }

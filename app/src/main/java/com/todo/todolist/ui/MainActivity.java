@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     private TaskAdapter taskAdapter;
     private TextView tvItemCount;
 
+    private List<Task> filterList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         taskAdapter.setTaskList(list);
         recyclerView.setAdapter(taskAdapter);
         tvItemCount = findViewById(R.id.tvItemCount);
-        tvItemCount.setText("Notes count : " + String.valueOf(getItemCount(list)) +
+        tvItemCount.setText("Notes count : " + String.valueOf(getItemCount(list)) + " " +
         "Notes done : " + String.valueOf(getDoneItemCount(list)));
     }
 
@@ -85,6 +87,17 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CONST.EDIT_REQUEST_CODE & resultCode == RESULT_OK) {
+            Bundle bundle = data.getBundleExtra("taskBundle");
+            Task task = new Task(bundle.getString("title"),
+                    bundle.getString("task"),
+                    bundle.getInt("priority", 2),
+                    bundle.getString("date"),
+                    0);
+            String position = bundle.getString("position");
+            Log.d("Position", position);
+            presenter.editTask(task, Integer.parseInt(position), taskAdapter.getCurrentList());
+        }
             presenter.getTasks();
     }
 
@@ -116,12 +129,12 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                presenter.switchDone(item.getOrder());
+                presenter.switchDone(item.getOrder(), taskAdapter.getCurrentList());
                 presenter.getTasks();
                 break;
             case 2:
                 Log.d("Menu", "edit");
-                String[] task = presenter.getEditTask(item.getOrder());
+                String[] task = presenter.getEditTask(item.getOrder(), taskAdapter.getCurrentList());
                 Intent intent = new Intent(this, TaskActivity.class);
                 intent.putExtra("requestCode", CONST.EDIT_REQUEST_CODE);
                 intent.putExtra("adapterPosition", item.getOrder());
@@ -148,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialogFragment, int position) {
-        presenter.deleteTask(position);
+        presenter.deleteTask(position, taskAdapter.getCurrentList());
         presenter.getTasks();
     }
 

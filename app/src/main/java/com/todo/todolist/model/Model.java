@@ -23,21 +23,21 @@ public class Model implements Contract.Model {
     }
 
     @Override
-    public void edit(Task task, Context context, int position) {
+    public void edit(Task task, Context context, int position, List<Task> list) {
         dbHelper = new DBHelper(context);
-        dbHelper.editTask(task, position);
+        dbHelper.editTask(task, position, list);
     }
 
     @Override
-    public void delete(Context context, int position) {
+    public void delete(Context context, int position, List<Task> list) {
         dbHelper = new DBHelper(context);
-        dbHelper.deleteTask(position);
+        dbHelper.deleteTask(position, list);
     }
 
     @Override
-    public String[] getEdit(Context context, int position) {
+    public String[] getEdit(Context context, int position, List<Task> list) {
         dbHelper = new DBHelper(context);
-        return dbHelper.getEditTask(position);
+        return dbHelper.getEditTask(position, list);
     }
 
     /*@Override
@@ -47,8 +47,8 @@ public class Model implements Contract.Model {
     }*/
 
     @Override
-    public void switchDone(Context context, int position) {
+    public void switchDone(Context context, int position, List<Task> list) {
         dbHelper = new DBHelper(context);
-        dbHelper.switchDone(position);
+        dbHelper.switchDone(position, list);
     }
 }

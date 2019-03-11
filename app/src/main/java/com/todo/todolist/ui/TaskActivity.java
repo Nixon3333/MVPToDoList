@@ -3,6 +3,7 @@ package com.todo.todolist.ui;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -128,10 +129,24 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         }
         requestCode = getIntent().getExtras();
         int position = (Integer) requestCode.get("adapterPosition");
+        Log.d("PositionTask", String.valueOf(position));
         Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0);
-        presenter.editTask(task, position);
-        setResult(RESULT_OK);
+        Intent data = new Intent();
+        data.putExtra("taskBundle", taskToBundle(task, position));
+        //presenter.editTask(task, position);
+        setResult(RESULT_OK, data);
         finish();
+    }
+
+    private Bundle taskToBundle(Task task, int position) {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", task.getTitle());
+        bundle.putString("task", task.getTask());
+        bundle.putInt("priority", task.getPriority());
+        bundle.putString("date", task.getDate());
+        bundle.putString("done", "0");
+        bundle.putString("position", String.valueOf(position));
+        return bundle;
     }
 
     private void callTimePicker() {

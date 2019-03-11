@@ -6,6 +6,8 @@ import com.todo.todolist.contractApi.Contract;
 import com.todo.todolist.model.Model;
 import com.todo.todolist.model.Task;
 
+import java.util.List;
+
 public class Presenter implements Contract.Presenter {
 
 
@@ -31,22 +33,22 @@ public class Presenter implements Contract.Presenter {
     }
 
     @Override
-    public void editTask(Task task, int position) {
-        model.edit(task, context, position);
+    public void editTask(Task task, int position, List<Task> list) {
+        model.edit(task, context, position, list);
     }
 
     @Override
-    public void deleteTask(int position) {
-        model.delete(context, position);
+    public void deleteTask(int position, List<Task> list) {
+        model.delete(context, position, list);
     }
 
     @Override
-    public String[] getEditTask(int position) {
-        return model.getEdit(context, position);
+    public String[] getEditTask(int position, List<Task> list) {
+        return model.getEdit(context, position, list);
     }
 
     @Override
-    public void switchDone(int position) {
-        model.switchDone(context, position);
+    public void switchDone(int position, List<Task> list) {
+        model.switchDone(context, position, list);
     }
 }

@@ -3,6 +3,7 @@ package com.todo.todolist.adapter;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +22,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     private List<Task> taskList = new ArrayList<>();
     private List<Task> copyTaskList;
+    private List<Task> filterTaskList;
 
     @NonNull
     @Override
@@ -84,6 +86,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             }
         }
         notifyDataSetChanged();
+    }
+
+    public List<Task> getCurrentList() {
+        return taskList;
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {

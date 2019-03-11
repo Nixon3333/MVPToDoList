@@ -18,13 +18,13 @@ public interface Contract {
 
         void saveTask(Task task);
 
-        void editTask(Task task, int position);
+        void editTask(Task task, int position, List<Task> list);
 
-        void deleteTask(int position);
+        void deleteTask(int position, List<Task> list);
 
-        String[] getEditTask(int position);
+        String[] getEditTask(int position, List<Task> list);
 
-        void switchDone(int position);
+        void switchDone(int position, List<Task> list);
     }
 
     interface Model {
@@ -33,13 +33,13 @@ public interface Contract {
 
         void save(Task task, Context context);
 
-        void edit(Task task, Context context, int position);
+        void edit(Task task, Context context, int position, List<Task> list);
 
-        void delete(Context context, int position);
+        void delete(Context context, int position, List<Task> list);
 
-        void switchDone(Context context, int position);
+        void switchDone(Context context, int position, List<Task> list);
 
-        String[] getEdit(Context context, int position);
+        String[] getEdit(Context context, int position, List<Task> list);
 
         //List<String> getDates(Context context);
     }
