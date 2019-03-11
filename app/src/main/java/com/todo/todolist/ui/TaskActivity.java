@@ -18,6 +18,7 @@ import com.todo.todolist.R;
 import com.todo.todolist.contractApi.Contract;
 import com.todo.todolist.model.Task;
 import com.todo.todolist.presenter.Presenter;
+import com.todo.todolist.utils.CONST;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -50,17 +51,30 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         etDate = findViewById(R.id.etDate);
 
         rgPriority = findViewById(R.id.rgPriority);
-        rgPriority.check(R.id.radio_medium);
+
         requestCode = getIntent().getExtras();
-        if (requestCode.get("requestCode").equals(1)) {
+        if (requestCode.get("requestCode").equals(CONST.ADD_REQUEST_CODE)) {
+            rgPriority.check(R.id.radio_medium);
             btApply.setVisibility(View.GONE);
             etDate.setText(getTodayDate());
         }
-        if (requestCode.get("requestCode").equals(2)) {
+        if (requestCode.get("requestCode").equals(CONST.EDIT_REQUEST_CODE)) {
             btAddTask.setVisibility(View.GONE);
             etTitle.setText(getIntent().getStringExtra("title"));
             etTask.setText(getIntent().getStringExtra("task"));
             etDate.setText(getIntent().getStringExtra("date"));
+            Log.d("Priority", getIntent().getStringExtra("priority"));
+            switch (Integer.valueOf(getIntent().getStringExtra("priority"))) {
+                case 1:
+                    rgPriority.check(R.id.radio_high);
+                    break;
+                case 2:
+                    rgPriority.check(R.id.radio_medium);
+                    break;
+                case 3:
+                    rgPriority.check(R.id.radio_low);
+                    break;
+            }
         }
     }
 

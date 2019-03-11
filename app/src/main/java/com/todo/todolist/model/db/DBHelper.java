@@ -105,10 +105,11 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public String[] getEditTask(int position) {
-        String[] task = new String[3];
+        String[] task = new String[4];
         task[0] = taskList.get(position).getTitle();
         task[1] = taskList.get(position).getTask();
         task[2] = taskList.get(position).getDate();
+        task[3] = String.valueOf(taskList.get(position).getPriority());
         return task;
     }
 

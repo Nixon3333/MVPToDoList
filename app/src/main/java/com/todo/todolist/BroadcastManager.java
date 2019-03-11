@@ -2,6 +2,7 @@ package com.todo.todolist;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.util.Log;
 
 import com.todo.todolist.model.Model;
 import com.todo.todolist.model.Task;
+import com.todo.todolist.ui.MainActivity;
 
 import java.util.Calendar;
 import java.util.List;
@@ -57,8 +59,12 @@ public class BroadcastManager extends BroadcastReceiver {
 
                     .setSmallIcon(R.drawable.ic_add_white)
                     .setContentTitle("Coming tasks")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(sb.substring(0, sb.length() - 2)))
                     .setContentText(sb.substring(0, sb.length() - 2))
                     .setChannelId("Channel");
+            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+            notifBuilder.setContentIntent(contentIntent);
 
             mNotificationManager.notify(1, notifBuilder.build());
         }

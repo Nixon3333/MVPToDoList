@@ -23,6 +23,7 @@ import com.todo.todolist.adapter.TaskAdapter;
 import com.todo.todolist.contractApi.Contract;
 import com.todo.todolist.model.Task;
 import com.todo.todolist.presenter.Presenter;
+import com.todo.todolist.utils.CONST;
 import com.todo.todolist.utils.DeleteTaskDialogFragment;
 
 import java.util.List;
@@ -35,8 +36,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     private Toolbar toolbar;
     private TaskAdapter taskAdapter;
     private TextView tvItemCount;
-    private int ADD_REQUEST_CODE = 1;
-    private int EDIT_REQUEST_CODE = 2;
 
 
     @Override
@@ -79,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
     public void onFabClick(View view) {
         Intent intent = new Intent(this, TaskActivity.class);
-        intent.putExtra("requestCode", ADD_REQUEST_CODE);
-        startActivityForResult(intent, ADD_REQUEST_CODE);
+        intent.putExtra("requestCode", CONST.ADD_REQUEST_CODE);
+        startActivityForResult(intent, CONST.ADD_REQUEST_CODE);
     }
 
     @Override
@@ -123,12 +122,13 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 Log.d("Menu", "edit");
                 String[] task = presenter.getEditTask(item.getOrder());
                 Intent intent = new Intent(this, TaskActivity.class);
-                intent.putExtra("requestCode", EDIT_REQUEST_CODE);
+                intent.putExtra("requestCode", CONST.EDIT_REQUEST_CODE);
                 intent.putExtra("adapterPosition", item.getOrder());
                 intent.putExtra("title", task[0]);
                 intent.putExtra("task", task[1]);
                 intent.putExtra("date", task[2]);
-                startActivityForResult(intent, EDIT_REQUEST_CODE);
+                intent.putExtra("priority", task[3]);
+                startActivityForResult(intent, CONST.EDIT_REQUEST_CODE);
 
                 Log.d("Menu", String.valueOf(item.getOrder()));
                 break;
