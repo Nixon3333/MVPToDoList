@@ -27,7 +27,6 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_DONE = "done";
 
     private static List<Task> taskList = new ArrayList<>();
-    private List<String> datesList = new ArrayList<>();
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,6 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + KEY_PRIORITY + " integer," + KEY_DATE + " text," + KEY_DONE + " integer default 0" + ")");
     }
 
+    //Temporary solution
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         switch (i) {
@@ -112,20 +112,6 @@ public class DBHelper extends SQLiteOpenHelper {
         task[3] = String.valueOf(list.get(position).getPriority());
         return task;
     }
-
-    /*public List<String> getTaskDates() {
-        datesList = new ArrayList<>();
-        String[] projection = {"date"};
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.query("tasks", projection, null, null,
-                null, null, null);
-        while (cursor.moveToNext()) {
-            datesList.add(cursor.getString(0));
-        }
-        cursor.close();
-        sqLiteDatabase.close();
-        return datesList;
-    }*/
 
     public void switchDone(int position, List<Task> list) {
         Task task = list.get(position);

@@ -23,6 +23,7 @@ import com.todo.todolist.utils.CONST;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class TaskActivity extends AppCompatActivity implements Contract.View {
 
@@ -47,24 +48,28 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         btApply = findViewById(R.id.btApply);
         etTask = findViewById(R.id.etTask);
         etTitle = findViewById(R.id.etTitle);
+
+        //Show keyboard and request focus to EditText
         showKeyboard();
         etTitle.requestFocus();
-        etDate = findViewById(R.id.etDate);
 
+        etDate = findViewById(R.id.etDate);
         rgPriority = findViewById(R.id.rgPriority);
 
         requestCode = getIntent().getExtras();
-        if (requestCode.get("requestCode").equals(CONST.ADD_REQUEST_CODE)) {
+
+        if (requestCode != null && Objects.equals(requestCode.get("requestCode"), CONST.ADD_REQUEST_CODE)) {
             rgPriority.check(R.id.radio_medium);
             btApply.setVisibility(View.GONE);
-            etDate.setText(getTodayDate());
+            etDate.setText(getCurrentDate());
         }
-        if (requestCode.get("requestCode").equals(CONST.EDIT_REQUEST_CODE)) {
+        if (requestCode != null && Objects.requireNonNull(requestCode.get("requestCode")).equals(CONST.EDIT_REQUEST_CODE)) {
+
             btAddTask.setVisibility(View.GONE);
             etTitle.setText(getIntent().getStringExtra("title"));
             etTask.setText(getIntent().getStringExtra("task"));
             etDate.setText(getIntent().getStringExtra("date"));
-            Log.d("Priority", getIntent().getStringExtra("priority"));
+
             switch (Integer.valueOf(getIntent().getStringExtra("priority"))) {
                 case 1:
                     rgPriority.check(R.id.radio_high);
@@ -77,11 +82,6 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
                     break;
             }
         }
-    }
-
-    private void showKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     public void onAddTaskClick(View view) {
@@ -108,14 +108,10 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         }
     }
 
-    private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
-    }
-
     public void onEditTaskClick(View view) {
         hideKeyboard();
         int priority = 0;
+        int position = 0;
         switch (rgPriority.getCheckedRadioButtonId()) {
             case R.id.radio_high:
                 priority = 1;
@@ -127,13 +123,16 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
                 priority = 3;
                 break;
         }
+
         requestCode = getIntent().getExtras();
-        int position = (Integer) requestCode.get("adapterPosition");
-        Log.d("PositionTask", String.valueOf(position));
+        if (requestCode != null) {
+            position = requestCode.getInt("adapterPosition");
+        }
+
         Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0);
         Intent data = new Intent();
         data.putExtra("taskBundle", taskToBundle(task, position));
-        //presenter.editTask(task, position);
+
         setResult(RESULT_OK, data);
         finish();
     }
@@ -188,12 +187,26 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         callDatePicker();
     }
 
-    private String getTodayDate() {
+    private String getCurrentDate() {
         final Calendar cal = Calendar.getInstance();
         int mYear = cal.get(Calendar.YEAR);
         int mMonth = cal.get(Calendar.MONTH) + 1;
         int mDay = cal.get(Calendar.DAY_OF_MONTH);
 
         return mDay + "." + mMonth + "." + mYear;
+    }
+
+    private void showKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        }
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
+        }
     }
 }

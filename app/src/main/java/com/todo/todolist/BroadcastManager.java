@@ -50,10 +50,15 @@ public class BroadcastManager extends BroadcastReceiver {
 
         NotificationChannel mChannel = null;
 
-        int importance = NotificationManager.IMPORTANCE_HIGH;
+        int importance = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            importance = NotificationManager.IMPORTANCE_HIGH;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mChannel = new NotificationChannel("Channel-01", "MyChannel", importance);
-            mNotificationManager.createNotificationChannel(mChannel);
+            if (mNotificationManager != null) {
+                mNotificationManager.createNotificationChannel(mChannel);
+            }
         }
 
         if (showNotification) {

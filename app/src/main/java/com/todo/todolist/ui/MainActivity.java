@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     private TaskAdapter taskAdapter;
     private TextView tvItemCount;
 
-    private List<Task> filterList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +52,14 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
     }
 
+    //Start alarm after 6 hours after open app and repeat everyday
     private void setAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, BroadcastManager.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 86400000, pendingIntent);
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC, 21600000, 86400000, pendingIntent);
+        }
     }
 
     private void initUI() {
@@ -74,8 +75,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         taskAdapter.setTaskList(list);
         recyclerView.setAdapter(taskAdapter);
         tvItemCount = findViewById(R.id.tvItemCount);
-        tvItemCount.setText("Notes count : " + String.valueOf(getItemCount(list)) + " " +
-        "Notes done : " + String.valueOf(getDoneItemCount(list)));
+        tvItemCount.setText(String.format("%s %s %s %s", getString(R.string.notes_count), String.valueOf(getItemCount(list)), getString(R.string.notes_done_count), String.valueOf(getDoneItemCount(list))));
     }
 
 
@@ -87,7 +87,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == CONST.EDIT_REQUEST_CODE & resultCode == RESULT_OK) {
+
             Bundle bundle = data.getBundleExtra("taskBundle");
             Task task = new Task(bundle.getString("title"),
                     bundle.getString("task"),
@@ -95,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                     bundle.getString("date"),
                     0);
             String position = bundle.getString("position");
-            Log.d("Position", position);
             presenter.editTask(task, Integer.parseInt(position), taskAdapter.getCurrentList());
         }
             presenter.getTasks();

@@ -44,7 +44,7 @@ public class Task implements Comparable<Task> {
 
     @Override
     public int compareTo(@NonNull Task task) {
-        //if (Integer.compare(priority, task.getPriority()) == 0) {
+
         if (Integer.compare(done, task.isDone()) == 0) {
             if (Integer.compare(priority, task.getPriority()) == 0) {
                 return convertDate(this.date).compareTo(convertDate(task.getDate()));
