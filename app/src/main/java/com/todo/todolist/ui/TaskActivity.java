@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.todo.todolist.R;
@@ -32,6 +33,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
     private EditText etTitle, etTask, etDate;
     private RadioGroup rgPriority;
     private Bundle requestCode;
+    private TextView tvPriority;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,15 +48,20 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
     private void initUI() {
         btAddTask = findViewById(R.id.btAddTask);
         btApply = findViewById(R.id.btApply);
+
         etTask = findViewById(R.id.etTask);
         etTitle = findViewById(R.id.etTitle);
+        etDate = findViewById(R.id.etDate);
+
+        rgPriority = findViewById(R.id.rgPriority);
+
+        tvPriority = findViewById(R.id.tvPriority);
+        tvPriority.setText(R.string.priority);
 
         //Show keyboard and request focus to EditText
         showKeyboard();
         etTitle.requestFocus();
 
-        etDate = findViewById(R.id.etDate);
-        rgPriority = findViewById(R.id.rgPriority);
 
         requestCode = getIntent().getExtras();
 

@@ -31,6 +31,15 @@
         android:onClick="onDateClick"
         android:hint="Date"/>
 
+    <TextView
+        android:id="@+id/tvPriority"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/etDate"/>
+
     <RadioGroup
         android:id="@+id/rgPriority"
         android:layout_width="match_parent"
@@ -39,31 +48,30 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDate">
+        app:layout_constraintTop_toBottomOf="@+id/tvPriority">
 
         <RadioButton
             android:id="@+id/radio_low"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
             android:layout_weight="1"
             android:text="Low" />
 
         <RadioButton
             android:id="@+id/radio_medium"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Medium" />
 
         <RadioButton
             android:id="@+id/radio_high"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
             android:layout_weight="1"
             android:text="High" />
 
