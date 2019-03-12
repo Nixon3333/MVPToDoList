@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.todo.todolist.BroadcastManager;
 import com.todo.todolist.R;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     private TaskAdapter taskAdapter;
     private TextView tvItemCount;
     private TextView tvToolbarDate;
+    private boolean doubleBackToExitPressedOnce = false;
 
 
     @Override
@@ -191,5 +194,18 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 count++;
         }
         return count;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 }
