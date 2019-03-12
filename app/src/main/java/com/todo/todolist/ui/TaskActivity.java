@@ -61,7 +61,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         if (requestCode != null && Objects.equals(requestCode.get("requestCode"), CONST.ADD_REQUEST_CODE)) {
             rgPriority.check(R.id.radio_medium);
             btApply.setVisibility(View.GONE);
-            etDate.setText(getCurrentDate());
+            etDate.setText(presenter.getCurrentDate());
         }
         if (requestCode != null && Objects.requireNonNull(requestCode.get("requestCode")).equals(CONST.EDIT_REQUEST_CODE)) {
 
@@ -185,15 +185,6 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
     public void onDateClick(View view) {
         hideKeyboard();
         callDatePicker();
-    }
-
-    private String getCurrentDate() {
-        final Calendar cal = Calendar.getInstance();
-        int mYear = cal.get(Calendar.YEAR);
-        int mMonth = cal.get(Calendar.MONTH) + 1;
-        int mDay = cal.get(Calendar.DAY_OF_MONTH);
-
-        return mDay + "." + mMonth + "." + mYear;
     }
 
     private void showKeyboard() {

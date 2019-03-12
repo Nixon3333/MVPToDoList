@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     private Toolbar toolbar;
     private TaskAdapter taskAdapter;
     private TextView tvItemCount;
+    private TextView tvToolbarDate;
 
 
     @Override
@@ -65,17 +66,25 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     private void initUI() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        tvToolbarDate = findViewById(R.id.tvToolbarDate);
     }
 
     @Override
     public void showTasks(List<Task> list) {
         taskAdapter = new TaskAdapter();
         taskAdapter.setTaskList(list);
+
         recyclerView.setAdapter(taskAdapter);
+
         tvItemCount = findViewById(R.id.tvItemCount);
-        tvItemCount.setText(String.format("%s %s %s %s", getString(R.string.notes_count), String.valueOf(getItemCount(list)), getString(R.string.notes_done_count), String.valueOf(getDoneItemCount(list))));
+        tvItemCount.setText(String.format("%s %s %s %s", getString(R.string.notes_count), String.valueOf(getItemCount(list)),
+                getString(R.string.notes_done_count), String.valueOf(getDoneItemCount(list))));
+
+        tvToolbarDate.setText(presenter.getCurrentDate());
     }
 
 

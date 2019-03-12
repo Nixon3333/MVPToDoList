@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.todo.todolist.model.Task;
 
+import java.util.Calendar;
 import java.util.List;
 
 public interface Contract {
@@ -25,6 +26,15 @@ public interface Contract {
         String[] getEditTask(int position, List<Task> list);
 
         void switchDone(int position, List<Task> list);
+
+        default String getCurrentDate() {
+            final Calendar cal = Calendar.getInstance();
+            int mYear = cal.get(Calendar.YEAR);
+            int mMonth = cal.get(Calendar.MONTH) + 1;
+            int mDay = cal.get(Calendar.DAY_OF_MONTH);
+
+            return mDay + "." + mMonth + "." + mYear;
+        }
     }
 
     interface Model {
