@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         Bundle bundle = new Bundle();
         bundle.putInt("position", item.getOrder());
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(getSupportFragmentManager(), "tag");
+        dialogFragment.show(getSupportFragmentManager(), "singleDelete");
     }
 
     private void doOnMenuEditClick(MenuItem item) {
@@ -202,8 +202,22 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialogFragment, int position) {
-        presenter.deleteTask(position, taskAdapter.getCurrentList());
-        presenter.getTasks();
+
+        if (dialogFragment.getTag().equals("singleDelete")) {
+            presenter.deleteTask(position, taskAdapter.getCurrentList());
+            presenter.getTasks();
+        }
+
+        if (dialogFragment.getTag().equals("multipleDelete")) {
+            List<Integer> IDs = new ArrayList<>();
+            IDs.clear();
+            IDs.addAll(taskAdapter.getSelectedItemsID(taskAdapter.getCurrentList()));
+            for (int i = 0; i < IDs.size(); i++) {
+                presenter.deleteTask(IDs.get(i), taskAdapter.getCurrentList());
+            }
+            presenter.getTasks();
+            layoutSelectMode.setVisibility(View.GONE);
+        }
     }
 
     private int getDoneItemCount(List<Task> list) {
@@ -241,14 +255,19 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         List<Integer> IDs = new ArrayList<>();
         switch (view.getId()) {
             case R.id.ibDelete:
-                IDs.clear();
+
+                DeleteTaskDialogFragment dialogFragment = new DeleteTaskDialogFragment();
+                dialogFragment.show(getSupportFragmentManager(), "multipleDelete");
+
+                /*IDs.clear();
                 IDs.addAll(taskAdapter.getSelectedItemsID(taskAdapter.getCurrentList()));
                 for (int i = 0; i < IDs.size(); i++) {
                     presenter.deleteTask(IDs.get(i), taskAdapter.getCurrentList());
                 }
                 presenter.getTasks();
-                layoutSelectMode.setVisibility(View.GONE);
+                layoutSelectMode.setVisibility(View.GONE);*/
                 break;
+
             case R.id.ibShare:
                 IDs.clear();
                 StringBuilder sharedText = new StringBuilder();
@@ -256,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 for (int i = 0; i < IDs.size(); i++) {
 
                     sharedText.append("Title : ").append(taskAdapter.getCurrentList().get(i).getTitle()).append("\n");
-                    sharedText.append("Task : ") .append(taskAdapter.getCurrentList().get(i).getTask()).append("\n");
+                    sharedText.append("Task : ").append(taskAdapter.getCurrentList().get(i).getTask()).append("\n");
                 }
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
@@ -264,8 +283,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 sendIntent.setType("text/plain");
                 taskAdapter.unselectedAll();
                 layoutSelectMode.setVisibility(View.GONE);
-                startActivity(Intent.createChooser(sendIntent,"Send to..."));
+                startActivity(Intent.createChooser(sendIntent, "Send to..."));
                 break;
+
             case R.id.ibCancel:
                 taskAdapter.unselectedAll();
                 layoutSelectMode.setVisibility(View.GONE);

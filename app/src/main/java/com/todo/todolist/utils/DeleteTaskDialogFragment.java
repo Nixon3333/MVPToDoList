@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
+import java.util.Objects;
+
 public class DeleteTaskDialogFragment extends DialogFragment {
 
     private MyDialogListener mListener;
@@ -32,18 +34,23 @@ public class DeleteTaskDialogFragment extends DialogFragment {
         }
         Activity activity = getActivity();
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder = null;
+        if (activity != null) {
+            builder = new AlertDialog.Builder(activity);
+        }
         int finalPosition = position;
-        builder.setMessage("Delete task?")
-                .setPositiveButton("Yes", (dialog, id) -> {
+        if (builder != null) {
+            builder.setMessage("Delete task?")
+                    .setPositiveButton("Yes", (dialog, id) -> {
 
-                    mListener.onDialogPositiveClick(DeleteTaskDialogFragment.this, finalPosition);
-                })
-                .setNegativeButton("No", (dialog, id) -> {
-                    // User cancelled the dialog
-                });
+                        mListener.onDialogPositiveClick(DeleteTaskDialogFragment.this, finalPosition);
+                    })
+                    .setNegativeButton("No", (dialog, id) -> {
+                        // User cancelled the dialog
+                    });
+        }
         // Create the AlertDialog object and return it
-        return builder.create();
+        return Objects.requireNonNull(builder).create();
     }
 
     public interface MyDialogListener {
