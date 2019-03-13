@@ -85,6 +85,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return count;
     }
 
+    public List<Integer> getSelectedItemsID(List<Task> list) {
+        List<Integer> IDs = new ArrayList<>();
+        for (Task task : list)
+            if (task.isSelected())
+                IDs.add(list.indexOf(task));
+
+        return IDs;
+    }
+
     public void setTaskList(List<Task> list) {
         taskList.addAll(list);
         copyTaskList = new ArrayList<>();

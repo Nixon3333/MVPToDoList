@@ -29,6 +29,8 @@ import com.todo.todolist.presenter.Presenter;
 import com.todo.todolist.utils.CONST;
 import com.todo.todolist.utils.DeleteTaskDialogFragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -232,5 +234,23 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+    }
+
+    public void onMultipleActionClick(View view) {
+        switch (view.getId()) {
+            case R.id.ibDelete:
+                List<Integer> IDs = new ArrayList<>();
+                IDs.addAll(taskAdapter.getSelectedItemsID(taskAdapter.getCurrentList()));
+                for (int i = 0; i < IDs.size(); i++) {
+                    presenter.deleteTask(IDs.get(i), taskAdapter.getCurrentList());
+                }
+                presenter.getTasks();
+                layoutSelectMode.setVisibility(View.GONE);
+                break;
+            case R.id.ibShare:
+                break;
+            case R.id.ibCancel:
+                break;
+        }
     }
 }
