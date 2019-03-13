@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
                     sharedText.append(getString(R.string.sharing_text_title)).append(taskAdapter.getCurrentList().get(i).getTitle()).append("\n");
                     sharedText.append(getString(R.string.sharing_text_task)).append(taskAdapter.getCurrentList().get(i).getTask());
-                    if (!(i++ == IDs.size()))
+                    if (!(i + 1 == IDs.size()))
                         sharedText.append("\n");
                 }
                 Intent sendIntent = new Intent();
@@ -294,6 +294,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 sendIntent.setType("text/plain");
                 taskAdapter.unselectedAll();
                 layoutSelectMode.setVisibility(View.GONE);
+                taskAdapter.notifyDataSetChanged();
                 startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.sharing_chooser_title)));
                 break;
 

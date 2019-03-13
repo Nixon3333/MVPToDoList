@@ -10,9 +10,9 @@
     <string name="notes_count">Notes count :</string>
     <string name="notes_done_count">Notes done :</string>
     <string name="priority">Priority</string>
-    <string name="sharing_text_title">Title :</string>
-    <string name="sharing_text_task">Task :</string>
-    <string name="sharing_chooser_title">Send to...</string>
+    <string name="sharing_text_title">Title :&#160;</string>
+    <string name="sharing_text_task">Task :&#160;</string>
+    <string name="sharing_chooser_title">Send to…</string>
     <string name="back_pressed_text">Please click BACK again to exit</string>
     <string name="searchview_hint">Search</string>
     <string name="toast_text_task_is_empty">Task is empty</string>
