@@ -46,7 +46,6 @@ public class BroadcastManager extends BroadcastReceiver {
                 }
             }
         }
-        //sb = sb.substring(0, sb.length() - 3)
 
         NotificationChannel mChannel = null;
 
@@ -75,6 +74,7 @@ public class BroadcastManager extends BroadcastReceiver {
 
             if (mNotificationManager != null) {
                 mNotificationManager.notify(1, notifBuilder.build());
+                showNotification = false;
             }
         }
 
