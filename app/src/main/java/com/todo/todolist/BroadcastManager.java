@@ -73,7 +73,9 @@ public class BroadcastManager extends BroadcastReceiver {
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
             notifBuilder.setContentIntent(contentIntent);
 
-            mNotificationManager.notify(1, notifBuilder.build());
+            if (mNotificationManager != null) {
+                mNotificationManager.notify(1, notifBuilder.build());
+            }
         }
 
     }

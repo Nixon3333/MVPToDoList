@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
     }
 
-    //Start alarm after 6 hours after open app and repeat everyday
+    //Start alarm after 12 hours after open app and repeat everyday
     private void setAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, BroadcastManager.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         if (alarmManager != null) {
-            alarmManager.setRepeating(AlarmManager.RTC, 21600000, 86400000, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC, AlarmManager.INTERVAL_HALF_DAY, AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
 
