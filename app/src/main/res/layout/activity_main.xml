@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Choose action for selected items" />
+            android:text="@string/choose_action_for_selected_items" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -106,7 +106,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
                 break;
         }
         if (etTitle.getText().toString().equals("") & etTask.getText().toString().equals(""))
-            Toast.makeText(this, "Task is empty", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_text_task_is_empty, Toast.LENGTH_LONG).show();
         else {
             Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0);
             presenter.saveTask(task);

@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         MenuItem mSearch = menu.findItem(R.id.action_search);
 
         SearchView mSearchView = (SearchView) mSearch.getActionView();
-        mSearchView.setQueryHint("Search");
+        mSearchView.setQueryHint(getString(R.string.searchview_hint));
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.back_pressed_text), Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
@@ -274,8 +274,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 IDs.addAll(taskAdapter.getSelectedItemsID(taskAdapter.getCurrentList()));
                 for (int i = 0; i < IDs.size(); i++) {
 
-                    sharedText.append("Title : ").append(taskAdapter.getCurrentList().get(i).getTitle()).append("\n");
-                    sharedText.append("Task : ").append(taskAdapter.getCurrentList().get(i).getTask()).append("\n");
+                    sharedText.append(getString(R.string.sharing_text_title)).append(taskAdapter.getCurrentList().get(i).getTitle()).append("\n");
+                    sharedText.append(getString(R.string.sharing_text_task)).append(taskAdapter.getCurrentList().get(i).getTask());
+                    if (!(i++ == IDs.size()))
+                        sharedText.append("\n");
                 }
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
@@ -283,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 sendIntent.setType("text/plain");
                 taskAdapter.unselectedAll();
                 layoutSelectMode.setVisibility(View.GONE);
-                startActivity(Intent.createChooser(sendIntent, "Send to..."));
+                startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.sharing_chooser_title)));
                 break;
 
             case R.id.ibCancel:

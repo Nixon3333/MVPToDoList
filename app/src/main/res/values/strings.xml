@@ -10,4 +10,19 @@
     <string name="notes_count">Notes count :</string>
     <string name="notes_done_count">Notes done :</string>
     <string name="priority">Priority</string>
+    <string name="sharing_text_title">Title :</string>
+    <string name="sharing_text_task">Task :</string>
+    <string name="sharing_chooser_title">Send to...</string>
+    <string name="back_pressed_text">Please click BACK again to exit</string>
+    <string name="searchview_hint">Search</string>
+    <string name="toast_text_task_is_empty">Task is empty</string>
+    <string name="choose_action_for_selected_items">Choose action for selected items</string>
+    <string name="title_hint">Title</string>
+    <string name="task_hint">Task</string>
+    <string name="date_hint">Date</string>
+    <string name="low_priority_text">Low</string>
+    <string name="medium_priority_text">Medium</string>
+    <string name="high_priority_text">High</string>
+    <string name="add_task_button_text">Add task</string>
+    <string name="apply_task_button_text">Apply</string>
 </resources>
