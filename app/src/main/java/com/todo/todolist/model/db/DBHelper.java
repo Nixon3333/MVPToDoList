@@ -134,4 +134,8 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    public void switchSelectTask(int position, List<Task> list) {
+        list.get(position).setSelected(!list.get(position).isSelected());
+    }
+
 }

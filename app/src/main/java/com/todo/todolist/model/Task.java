@@ -12,6 +12,7 @@ public class Task implements Comparable<Task> {
     private int priority;
     private String date;
     private int done;
+    private boolean isSelected;
 
     public Task(String title, String task, int priority, String date, int isDone) {
         this.title = title;
@@ -19,7 +20,15 @@ public class Task implements Comparable<Task> {
         this.priority = priority;
         this.date = date;
         this.done = isDone;
+        this.isSelected = false;
+    }
 
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
     }
 
     public int isDone() {

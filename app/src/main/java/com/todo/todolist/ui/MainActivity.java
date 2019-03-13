@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     private TaskAdapter taskAdapter;
     private TextView tvItemCount;
     private TextView tvToolbarDate;
+    private LinearLayout layoutSelectMode;
     private boolean doubleBackToExitPressedOnce = false;
 
 
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         setSupportActionBar(toolbar);
 
         tvToolbarDate = findViewById(R.id.tvToolbarDate);
+
+        layoutSelectMode = findViewById(R.id.layoutSelectedMode);
     }
 
     @Override
@@ -111,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
             String position = bundle.getString("position");
             presenter.editTask(task, Integer.parseInt(position), taskAdapter.getCurrentList());
         }
-            presenter.getTasks();
+        presenter.getTasks();
     }
 
     @Override
@@ -153,8 +157,20 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 Log.d("Menu", String.valueOf(item.getOrder()));
                 break;
             case 3:
-                Log.d("Menu", "delete");
+                Log.d("Menu", "ic_delete_white");
                 doOnMenuDeleteClick(item);
+                break;
+            case 4:
+                presenter.switchSelectItem(item.getOrder(), taskAdapter.getCurrentList());
+                taskAdapter.switchSelectMode();
+
+                if (TaskAdapter.selectMode)
+                    layoutSelectMode.setVisibility(View.VISIBLE);
+
+                taskAdapter.notifyDataSetChanged();
+
+                if (taskAdapter.getCountOfSelectedItems(taskAdapter.getCurrentList()) == 0)
+                    layoutSelectMode.setVisibility(View.GONE);
 
                 break;
         }
@@ -215,6 +231,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 }

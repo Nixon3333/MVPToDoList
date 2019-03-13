@@ -51,4 +51,9 @@ public class Presenter implements Contract.Presenter {
     public void switchDone(int position, List<Task> list) {
         model.switchDone(context, position, list);
     }
+
+    @Override
+    public void switchSelectItem(int position, List<Task> list) {
+        model.switchSelect(context, position, list);
+    }
 }

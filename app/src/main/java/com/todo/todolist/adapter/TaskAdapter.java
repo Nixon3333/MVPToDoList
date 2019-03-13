@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.todo.todolist.R;
 import com.todo.todolist.model.Task;
@@ -21,6 +23,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     private List<Task> taskList = new ArrayList<>();
     private List<Task> copyTaskList;
+    public static boolean selectMode = false;
 
     @NonNull
     @Override
@@ -39,11 +42,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskViewHolder.tvDate.setVisibility(View.GONE);
             taskViewHolder.imagePriority.setVisibility(View.GONE);
         }
-        else {
+
+        if (taskList.get(i).isSelected()) {
+            taskViewHolder.cbSelect.setVisibility(View.VISIBLE);
+        } else {
             taskViewHolder.tvTitle.setPaintFlags(0);
             taskViewHolder.tvTask.setPaintFlags(0);
             taskViewHolder.tvDate.setVisibility(View.VISIBLE);
             taskViewHolder.imagePriority.setVisibility(View.VISIBLE);
+            taskViewHolder.cbSelect.setVisibility(View.GONE);
         }
         taskViewHolder.tvTitle.setText(taskList.get(i).getTitle());
         taskViewHolder.tvTask.setText(taskList.get(i).getTask());
@@ -64,6 +71,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public int getItemCount() {
         return taskList.size();
+    }
+
+    public void switchSelectMode() {
+        selectMode = !selectMode;
+    }
+
+    public int getCountOfSelectedItems(List<Task> list) {
+        int count = 0;
+        for (Task task : list)
+            if (task.isSelected())
+                count++;
+        return count;
     }
 
     public void setTaskList(List<Task> list) {
@@ -92,12 +111,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return taskList;
     }
 
-    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
 
         TextView tvTitle;
         TextView tvTask;
         TextView tvDate;
         ImageView imagePriority;
+        CheckBox cbSelect;
 
         TaskViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,8 +125,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             tvTask = itemView.findViewById(R.id.tvTask);
             tvDate = itemView.findViewById(R.id.tvDate);
             imagePriority = itemView.findViewById(R.id.imagePriority);
+            cbSelect = itemView.findViewById(R.id.cbSelect);
 
             itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -117,7 +139,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 contextMenu.add(Menu.NONE, 1, getAdapterPosition(), "Done");
             contextMenu.add(Menu.NONE, 2, getAdapterPosition(), "Edit");
             contextMenu.add(Menu.NONE, 3, getAdapterPosition(), "Delete");
+            if (taskList.get(getAdapterPosition()).isSelected())
+                contextMenu.add(Menu.NONE, 4, getAdapterPosition(), "Deselect");
+            else
+                contextMenu.add(Menu.NONE, 4, getAdapterPosition(), "Select");
         }
 
+        @Override
+        public void onClick(View view) {
+            if (selectMode)
+                Toast.makeText(view.getRootView().getContext(), "select", Toast.LENGTH_LONG).show();
+        }
     }
 }

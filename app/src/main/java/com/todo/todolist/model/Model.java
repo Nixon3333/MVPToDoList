@@ -45,4 +45,10 @@ public class Model implements Contract.Model {
         dbHelper = new DBHelper(context);
         dbHelper.switchDone(position, list);
     }
+
+    @Override
+    public void switchSelect(Context context, int position, List<Task> list) {
+        dbHelper = new DBHelper(context);
+        dbHelper.switchSelectTask(position, list);
+    }
 }

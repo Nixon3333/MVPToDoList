@@ -35,6 +35,8 @@ public interface Contract {
 
             return mDay + "." + mMonth + "." + mYear;
         }
+
+        void switchSelectItem(int position, List<Task> list);
     }
 
     interface Model {
@@ -50,6 +52,8 @@ public interface Contract {
         void switchDone(Context context, int position, List<Task> list);
 
         String[] getEdit(Context context, int position, List<Task> list);
+
+        void switchSelect(Context context, int position, List<Task> list);
 
         //List<String> getDates(Context context);
     }
