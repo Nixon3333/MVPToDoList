@@ -147,29 +147,38 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 break;
             case 2:
                 Log.d("Menu", "edit");
-                String[] task = presenter.getEditTask(item.getOrder(), taskAdapter.getCurrentList());
-                Intent intent = new Intent(this, TaskActivity.class);
-                intent.putExtra("requestCode", CONST.EDIT_REQUEST_CODE);
-                intent.putExtra("adapterPosition", item.getOrder());
-                intent.putExtra("title", task[0]);
-                intent.putExtra("task", task[1]);
-                intent.putExtra("date", task[2]);
-                intent.putExtra("priority", task[3]);
-                startActivityForResult(intent, CONST.EDIT_REQUEST_CODE);
+
+                doOnMenuEditClick(item);
 
                 Log.d("Menu", String.valueOf(item.getOrder()));
                 break;
             case 3:
                 Log.d("Menu", "delete");
-                DeleteTaskDialogFragment dialogFragment = new DeleteTaskDialogFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", item.getOrder());
-                dialogFragment.setArguments(bundle);
-                dialogFragment.show(getSupportFragmentManager(), "tag");
+                doOnMenuDeleteClick(item);
 
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void doOnMenuDeleteClick(MenuItem item) {
+        DeleteTaskDialogFragment dialogFragment = new DeleteTaskDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", item.getOrder());
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(getSupportFragmentManager(), "tag");
+    }
+
+    private void doOnMenuEditClick(MenuItem item) {
+        String[] task = presenter.getEditTask(item.getOrder(), taskAdapter.getCurrentList());
+        Intent intent = new Intent(this, TaskActivity.class);
+        intent.putExtra("requestCode", CONST.EDIT_REQUEST_CODE);
+        intent.putExtra("adapterPosition", item.getOrder());
+        intent.putExtra("title", task[0]);
+        intent.putExtra("task", task[1]);
+        intent.putExtra("date", task[2]);
+        intent.putExtra("priority", task[3]);
+        startActivityForResult(intent, CONST.EDIT_REQUEST_CODE);
     }
 
     @Override
