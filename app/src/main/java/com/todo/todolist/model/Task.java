@@ -60,13 +60,24 @@ public class Task implements Comparable<Task> {
     @Override
     public int compareTo(@NonNull Task task) {
 
-        if (Integer.compare(done, task.isDone()) == 0) {
+        int i = Integer.compare(this.done, task.isDone());
+        if (i != 0) return i;
+
+        i = Integer.compare(this.priority, task.getPriority());
+        if (i != 0) return i;
+
+        i = convertDate(this.date).compareTo(convertDate(task.getDate()));
+        if (i != 0) return i;
+
+        return this.title.compareTo(task.getTitle());
+
+        /*if (Integer.compare(done, task.isDone()) == 0) {
             if (Integer.compare(priority, task.getPriority()) == 0) {
                 return convertDate(this.date).compareTo(convertDate(task.getDate()));
             }
             return Integer.compare(priority, task.getPriority());
         }
-        return Integer.compare(done, task.isDone());
+        return Integer.compare(done, task.isDone());*/
     }
 
     private Date convertDate(String date) {
