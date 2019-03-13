@@ -41,16 +41,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskViewHolder.tvTask.setPaintFlags(taskViewHolder.tvTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             taskViewHolder.tvDate.setVisibility(View.GONE);
             taskViewHolder.imagePriority.setVisibility(View.GONE);
-        }
-
-        if (taskList.get(i).isSelected()) {
-            taskViewHolder.cbSelect.setVisibility(View.VISIBLE);
         } else {
             taskViewHolder.tvTitle.setPaintFlags(0);
             taskViewHolder.tvTask.setPaintFlags(0);
             taskViewHolder.tvDate.setVisibility(View.VISIBLE);
             taskViewHolder.imagePriority.setVisibility(View.VISIBLE);
             taskViewHolder.cbSelect.setVisibility(View.GONE);
+        }
+
+        if (taskList.get(i).isSelected()) {
+            taskViewHolder.cbSelect.setVisibility(View.VISIBLE);
         }
         taskViewHolder.tvTitle.setText(taskList.get(i).getTitle());
         taskViewHolder.tvTask.setText(taskList.get(i).getTask());

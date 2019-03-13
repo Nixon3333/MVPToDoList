@@ -261,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, sharedText.toString());
                 sendIntent.setType("text/plain");
+                taskAdapter.unselectedAll();
                 layoutSelectMode.setVisibility(View.GONE);
                 startActivity(Intent.createChooser(sendIntent,"Send to..."));
                 break;
