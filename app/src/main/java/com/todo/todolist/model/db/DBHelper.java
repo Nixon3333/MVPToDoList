@@ -15,7 +15,7 @@ import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "taskDb";
     private static final String TABLE_NAME = "tasks";
 
@@ -25,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_PRIORITY = "priority";
     private static final String KEY_DATE = "date";
     private static final String KEY_DONE = "done";
+    private static final String KEY_REMIND = "remind";
 
     private static List<Task> taskList = new ArrayList<>();
 
@@ -36,15 +37,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("create table " + TABLE_NAME + "(" + KEY_ID
                 + " integer primary key autoincrement," + KEY_TITLE + " text," + KEY_TASK + " text,"
-                + KEY_PRIORITY + " integer," + KEY_DATE + " text," + KEY_DONE + " integer default 0" + ")");
+                + KEY_PRIORITY + " integer," + KEY_DATE + " text," + KEY_DONE + " integer default 0," + KEY_REMIND + " integer default 1" + ")");
     }
 
     //Temporary solution
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         switch (i) {
-            case 1:
-                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + KEY_DONE + " integer default 0");
+            case 2:
+                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + KEY_REMIND + " integer default 1");
         }
         //sqLiteDatabase.execSQL("drop table if exists " + TABLE_NAME);
         //onCreate(sqLiteDatabase);
@@ -57,18 +58,19 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_TASK, task.getTask());
         contentValues.put(KEY_PRIORITY, task.getPriority());
         contentValues.put(KEY_DATE, task.getDate());
+        contentValues.put(KEY_REMIND, task.getDoRemind());
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
         sqLiteDatabase.close();
     }
 
     public List<Task> loadTask() {
         taskList = new ArrayList<>();
-        String[] projection = {"title", "task", "priority", "date", "done"};
+        String[] projection = {"title", "task", "priority", "date", "done", "remind"};
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query("tasks", projection, null, null,
                 null, null, null);
         while (cursor.moveToNext()) {
-            taskList.add(new Task(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getInt(4)));
+            taskList.add(new Task(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5)));
         }
         cursor.close();
         sqLiteDatabase.close();
@@ -89,6 +91,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("task", task.getTask());
         contentValues.put("priority", task.getPriority());
         contentValues.put("date", task.getDate());
+        contentValues.put("remind", task.getDoRemind());
         sqLiteDatabase.update("tasks", contentValues, "title = ? AND task = ? AND priority = ?", whereArgs);
         sqLiteDatabase.close();
     }

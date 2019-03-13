@@ -38,7 +38,7 @@ public class BroadcastManager extends BroadcastReceiver {
             Log.d("Millis", String.valueOf(dateToMillis(task.getDate())) + " : " + task.getDate());
             Log.d("MillisCur", String.valueOf(System.currentTimeMillis()) + " : " + Calendar.getInstance().getTime());
             Log.d("MillisDif", String.valueOf(dateToMillis(task.getDate()) - System.currentTimeMillis()));
-            if (task.isDone() != 1) {
+            if (task.isDone() != 1 & task.getDoRemind() == 1) {
                 if (dateToMillis(task.getDate()) - System.currentTimeMillis() <= 86400000 & dateToMillis(task.getDate()) - System.currentTimeMillis() >= -10000) {
 
                     sb.append(task.getTitle()).append(", ");

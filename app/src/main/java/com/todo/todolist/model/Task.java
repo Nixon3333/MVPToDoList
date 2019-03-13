@@ -13,14 +13,20 @@ public class Task implements Comparable<Task> {
     private String date;
     private int done;
     private boolean isSelected;
+    private int doRemind;
 
-    public Task(String title, String task, int priority, String date, int isDone) {
+    public Task(String title, String task, int priority, String date, int isDone, int doRemind) {
         this.title = title;
         this.task = task;
         this.priority = priority;
         this.date = date;
         this.done = isDone;
         this.isSelected = false;
+        this.doRemind = doRemind;
+    }
+
+    public int getDoRemind() {
+        return doRemind;
     }
 
     public void setSelected(boolean selected) {

@@ -62,12 +62,13 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     }
 
     //Start alarm after 12 hours after open app and repeat everyday
+    //Need to change trigger time
     private void setAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, BroadcastManager.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         if (alarmManager != null) {
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_HALF_DAY, AlarmManager.INTERVAL_DAY, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 5000 /*AlarmManager.INTERVAL_HALF_DAY*/, AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
 
@@ -110,11 +111,15 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         if (requestCode == CONST.EDIT_REQUEST_CODE & resultCode == RESULT_OK) {
 
             Bundle bundle = data.getBundleExtra("taskBundle");
+            int doRemind = 0;
+            if (bundle.getBoolean("remind"))
+                doRemind = 1;
             Task task = new Task(bundle.getString("title"),
                     bundle.getString("task"),
                     bundle.getInt("priority", 2),
                     bundle.getString("date"),
-                    0);
+                    0,
+                    doRemind);
             String position = bundle.getString("position");
             presenter.editTask(task, Integer.parseInt(position), taskAdapter.getCurrentList());
         }
@@ -149,21 +154,25 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
+                //Done
                 presenter.switchDone(item.getOrder(), taskAdapter.getCurrentList());
                 presenter.getTasks();
                 break;
             case 2:
+                //Edit
                 Log.d("Menu", "edit");
 
                 doOnMenuEditClick(item);
 
                 Log.d("Menu", String.valueOf(item.getOrder()));
                 break;
+                //Delete
             case 3:
                 Log.d("Menu", "ic_delete_white");
                 doOnMenuDeleteClick(item);
                 break;
             case 4:
+                //Select
                 presenter.switchSelectItem(item.getOrder(), taskAdapter.getCurrentList());
                 taskAdapter.switchSelectMode();
 

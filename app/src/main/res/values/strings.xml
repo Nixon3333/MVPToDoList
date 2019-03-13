@@ -25,4 +25,5 @@
     <string name="high_priority_text">High</string>
     <string name="add_task_button_text">Add task</string>
     <string name="apply_task_button_text">Apply</string>
+    <string name="do_not_remind_checkbox">Do not remind</string>
 </resources>

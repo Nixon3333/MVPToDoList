@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
     private RadioGroup rgPriority;
     private Bundle requestCode;
     private TextView tvPriority;
+    private CheckBox cbRemind;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         tvPriority = findViewById(R.id.tvPriority);
         tvPriority.setText(R.string.priority);
 
+        cbRemind = findViewById(R.id.cbRemind);
+
         //Show keyboard and request focus to EditText
         showKeyboard();
         etTitle.requestFocus();
@@ -73,6 +77,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         if (requestCode != null && Objects.requireNonNull(requestCode.get("requestCode")).equals(CONST.EDIT_REQUEST_CODE)) {
 
             btAddTask.setVisibility(View.GONE);
+
             etTitle.setText(getIntent().getStringExtra("title"));
             etTask.setText(getIntent().getStringExtra("task"));
             etDate.setText(getIntent().getStringExtra("date"));
@@ -105,10 +110,13 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
                 priority = 3;
                 break;
         }
+        int doRemind = 1;
+        if (cbRemind.isChecked())
+            doRemind = 0;
         if (etTitle.getText().toString().equals("") & etTask.getText().toString().equals(""))
             Toast.makeText(this, R.string.toast_text_task_is_empty, Toast.LENGTH_LONG).show();
         else {
-            Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0);
+            Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0, doRemind);
             presenter.saveTask(task);
             setResult(RESULT_OK);
             finish();
@@ -135,8 +143,10 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         if (requestCode != null) {
             position = requestCode.getInt("adapterPosition");
         }
-
-        Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0);
+        int doRemind = 1;
+        if (cbRemind.isChecked())
+            doRemind = 0;
+        Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0, doRemind);
         Intent data = new Intent();
         data.putExtra("taskBundle", taskToBundle(task, position));
 
@@ -152,6 +162,10 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         bundle.putString("date", task.getDate());
         bundle.putString("done", "0");
         bundle.putString("position", String.valueOf(position));
+        boolean doRemind = true;
+        if (task.getDoRemind() == 0)
+            doRemind = false;
+        bundle.putBoolean("remind", doRemind);
         return bundle;
     }
 
