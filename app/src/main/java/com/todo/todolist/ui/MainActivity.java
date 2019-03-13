@@ -237,9 +237,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     }
 
     public void onMultipleActionClick(View view) {
+        List<Integer> IDs = new ArrayList<>();
         switch (view.getId()) {
             case R.id.ibDelete:
-                List<Integer> IDs = new ArrayList<>();
+                IDs.clear();
                 IDs.addAll(taskAdapter.getSelectedItemsID(taskAdapter.getCurrentList()));
                 for (int i = 0; i < IDs.size(); i++) {
                     presenter.deleteTask(IDs.get(i), taskAdapter.getCurrentList());
@@ -248,8 +249,25 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 layoutSelectMode.setVisibility(View.GONE);
                 break;
             case R.id.ibShare:
+                IDs.clear();
+                StringBuilder sharedText = new StringBuilder();
+                IDs.addAll(taskAdapter.getSelectedItemsID(taskAdapter.getCurrentList()));
+                for (int i = 0; i < IDs.size(); i++) {
+
+                    sharedText.append("Title : ").append(taskAdapter.getCurrentList().get(i).getTitle()).append("\n");
+                    sharedText.append("Task : ") .append(taskAdapter.getCurrentList().get(i).getTask()).append("\n");
+                }
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, sharedText.toString());
+                sendIntent.setType("text/plain");
+                layoutSelectMode.setVisibility(View.GONE);
+                startActivity(Intent.createChooser(sendIntent,"Send to..."));
                 break;
             case R.id.ibCancel:
+                taskAdapter.unselectedAll();
+                layoutSelectMode.setVisibility(View.GONE);
+                taskAdapter.notifyDataSetChanged();
                 break;
         }
     }

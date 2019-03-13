@@ -120,6 +120,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return taskList;
     }
 
+    public void unselectedAll() {
+        for (Task task : taskList)
+            task.setSelected(false);
+    }
+
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
 
         TextView tvTitle;
