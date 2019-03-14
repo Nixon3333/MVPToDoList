@@ -1,4 +1,4 @@
-package com.todo.todolist.model;
+package com.todo.todolist.model.pojo;
 
 import android.support.annotation.NonNull;
 

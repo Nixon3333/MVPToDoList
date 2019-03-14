@@ -2,24 +2,24 @@ package com.todo.todolist.presenter;
 
 import android.content.Context;
 
-import com.todo.todolist.contractApi.Contract;
-import com.todo.todolist.model.Model;
-import com.todo.todolist.model.Task;
+import com.todo.todolist.contractApi.ContractMain;
+import com.todo.todolist.model.ModelMain;
+import com.todo.todolist.model.pojo.Task;
 
 import java.util.List;
 
-public class Presenter implements Contract.Presenter {
+public class PresenterMain implements ContractMain.Presenter {
 
 
-    private Contract.View view;
-    private Contract.Model model;
+    private ContractMain.View view;
+    private ContractMain.Model model;
     private Context context;
 
 
-    public Presenter(Contract.View view, Context context) {
+    public PresenterMain(ContractMain.View view, Context context) {
         this.view = view;
         this.context = context;
-        this.model = new Model();
+        this.model = new ModelMain();
     }
 
     @Override

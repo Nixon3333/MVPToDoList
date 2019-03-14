@@ -1,7 +1,6 @@
 package com.todo.todolist.ui;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,19 +19,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.todo.todolist.R;
-import com.todo.todolist.contractApi.Contract;
-import com.todo.todolist.model.Task;
-import com.todo.todolist.presenter.Presenter;
-import com.todo.todolist.utils.CONST;
-import com.todo.todolist.utils.Groups;
+import com.todo.todolist.contractApi.ContractMain;
+import com.todo.todolist.model.pojo.Task;
+import com.todo.todolist.presenter.PresenterMain;
+import com.todo.todolist.constants.CONST;
+import com.todo.todolist.constants.Groups;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-public class TaskActivity extends AppCompatActivity implements Contract.View {
+public class TaskActivity extends AppCompatActivity implements ContractMain.View {
 
-    private Contract.Presenter presenter;
+    private ContractMain.Presenter presenter;
     private Button btAddTask, btApply;
     private EditText etTitle, etTask, etDate;
     private RadioGroup rgPriority;
@@ -47,7 +45,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
-        presenter = new Presenter(this, this);
+        presenter = new PresenterMain(this, this);
 
         initUI();
     }

@@ -2,12 +2,12 @@ package com.todo.todolist.contractApi;
 
 import android.content.Context;
 
-import com.todo.todolist.model.Task;
+import com.todo.todolist.model.pojo.Task;
 
 import java.util.Calendar;
 import java.util.List;
 
-public interface Contract {
+public interface ContractMain {
 
     interface View {
         default void showTasks(List<Task> list) {
@@ -55,6 +55,5 @@ public interface Contract {
 
         void switchSelect(Context context, int position, List<Task> list);
 
-        //List<String> getDates(Context context);
     }
 }

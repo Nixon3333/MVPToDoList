@@ -1,4 +1,4 @@
-package com.todo.todolist;
+package com.todo.todolist.utils;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,8 +10,9 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.todo.todolist.model.Model;
-import com.todo.todolist.model.Task;
+import com.todo.todolist.R;
+import com.todo.todolist.model.ModelMain;
+import com.todo.todolist.model.pojo.Task;
 import com.todo.todolist.ui.MainActivity;
 
 import java.util.Calendar;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class BroadcastManager extends BroadcastReceiver {
 
-    Model model;
+    ModelMain modelMain;
     NotificationCompat.Builder notifBuilder;
     boolean showNotification = false;
 
@@ -27,8 +28,8 @@ public class BroadcastManager extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        model = new Model();
-        List<Task> dates = model.loadTasks(context);
+        modelMain = new ModelMain();
+        List<Task> dates = modelMain.loadTasks(context);
         StringBuilder sb = new StringBuilder();
 
         NotificationManager mNotificationManager =

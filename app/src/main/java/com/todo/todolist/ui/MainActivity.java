@@ -27,28 +27,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.todo.todolist.BroadcastManager;
+import com.todo.todolist.contractApi.ContractSettings;
+import com.todo.todolist.presenter.PresenterSettings;
+import com.todo.todolist.utils.BroadcastManager;
 import com.todo.todolist.R;
 import com.todo.todolist.adapter.TaskAdapter;
-import com.todo.todolist.contractApi.Contract;
-import com.todo.todolist.model.Task;
-import com.todo.todolist.presenter.Presenter;
-import com.todo.todolist.utils.CONST;
+import com.todo.todolist.contractApi.ContractMain;
+import com.todo.todolist.model.pojo.Task;
+import com.todo.todolist.presenter.PresenterMain;
+import com.todo.todolist.constants.CONST;
 import com.todo.todolist.utils.DeleteTaskDialogFragment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity implements Contract.View, DeleteTaskDialogFragment.MyDialogListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements ContractMain.View, ContractSettings.View, DeleteTaskDialogFragment.MyDialogListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private Contract.Presenter presenter;
+    private ContractMain.Presenter presenterMain;
+    private ContractSettings.Presenter presenterSettings;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private TaskAdapter taskAdapter;
     private TextView tvItemCount;
-    private TextView tvToolbarDate;
+    private TextView tvToolbarInfo;
     private LinearLayout layoutSelectMode;
     private boolean doubleBackToExitPressedOnce = false;
     private DrawerLayout drawerLayout;
@@ -63,8 +66,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
         initUI();
 
-        presenter = new Presenter(this, this);
-        presenter.getTasks();
+        presenterMain = new PresenterMain(this, this);
+        presenterMain.getTasks();
+
+        presenterSettings = new PresenterSettings(this, this);
 
     }
 
@@ -94,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
 
-        tvToolbarDate = findViewById(R.id.tvToolbarDate);
+        tvToolbarInfo = findViewById(R.id.tvToolbarInfo);
 
         layoutSelectMode = findViewById(R.id.layoutSelectedMode);
     }
@@ -111,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         tvItemCount.setText(String.format("%s %s %s %s", getString(R.string.notes_count), String.valueOf(getItemCount(taskAdapter.getCurrentList()))/*String.valueOf(getItemCount(list)*/,
                 getString(R.string.notes_done_count), String.valueOf(getDoneItemCount(list))));
 
-        tvToolbarDate.setText(presenter.getCurrentDate());
+        tvToolbarInfo.setText(presenterMain.getCurrentDate());
     }
 
 
@@ -138,9 +143,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                     doRemind,
                     bundle.getString("group"));
             String position = bundle.getString("position");
-            presenter.editTask(task, Integer.parseInt(position), taskAdapter.getCurrentList());
+            presenterMain.editTask(task, Integer.parseInt(position), taskAdapter.getCurrentList());
         }
-        presenter.getTasks();
+        presenterMain.getTasks();
     }
 
     @Override
@@ -172,8 +177,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         switch (item.getItemId()) {
             case 1:
                 //Done
-                presenter.switchDone(item.getOrder(), taskAdapter.getCurrentList());
-                presenter.getTasks();
+                presenterMain.switchDone(item.getOrder(), taskAdapter.getCurrentList());
+                presenterMain.getTasks();
                 break;
             case 2:
                 //Edit
@@ -183,14 +188,14 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
                 Log.d("Menu", String.valueOf(item.getOrder()));
                 break;
-                //Delete
+            //Delete
             case 3:
                 Log.d("Menu", "ic_delete_white");
                 doOnMenuDeleteClick(item);
                 break;
             case 4:
                 //Select
-                presenter.switchSelectItem(item.getOrder(), taskAdapter.getCurrentList());
+                presenterMain.switchSelectItem(item.getOrder(), taskAdapter.getCurrentList());
                 taskAdapter.switchSelectMode();
 
                 if (TaskAdapter.selectMode)
@@ -215,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     }
 
     private void doOnMenuEditClick(MenuItem item) {
-        String[] task = presenter.getEditTask(item.getOrder(), taskAdapter.getCurrentList());
+        String[] task = presenterMain.getEditTask(item.getOrder(), taskAdapter.getCurrentList());
         Intent intent = new Intent(this, TaskActivity.class);
         intent.putExtra("requestCode", CONST.EDIT_REQUEST_CODE);
         intent.putExtra("adapterPosition", item.getOrder());
@@ -231,8 +236,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     public void onDialogPositiveClick(DialogFragment dialogFragment, int position) {
 
         if (dialogFragment.getTag().equals("singleDelete")) {
-            presenter.deleteTask(position, taskAdapter.getCurrentList());
-            presenter.getTasks();
+            presenterMain.deleteTask(position, taskAdapter.getCurrentList());
+            presenterMain.getTasks();
         }
 
         if (dialogFragment.getTag().equals("multipleDelete")) {
@@ -240,9 +245,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
             IDs.clear();
             IDs.addAll(taskAdapter.getSelectedItemsID(taskAdapter.getCurrentList()));
             for (int i = 0; i < IDs.size(); i++) {
-                presenter.deleteTask(IDs.get(i), taskAdapter.getCurrentList());
+                presenterMain.deleteTask(IDs.get(i), taskAdapter.getCurrentList());
             }
-            presenter.getTasks();
+            presenterMain.getTasks();
             layoutSelectMode.setVisibility(View.GONE);
         }
     }
@@ -290,13 +295,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 DeleteTaskDialogFragment dialogFragment = new DeleteTaskDialogFragment();
                 dialogFragment.show(getSupportFragmentManager(), "multipleDelete");
 
-                /*IDs.clear();
-                IDs.addAll(taskAdapter.getSelectedItemsID(taskAdapter.getCurrentList()));
-                for (int i = 0; i < IDs.size(); i++) {
-                    presenter.deleteTask(IDs.get(i), taskAdapter.getCurrentList());
-                }
-                presenter.getTasks();
-                layoutSelectMode.setVisibility(View.GONE);*/
                 break;
 
             case R.id.ibShare:
@@ -330,12 +328,18 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        drawerLayout.closeDrawer(Gravity.START);
-        taskAdapter.groupFilter(menuItem.getTitle().toString());
+        if (menuItem.getTitle().toString().equals("Settings")) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        } else {
+            drawerLayout.closeDrawer(Gravity.START);
+            taskAdapter.setGroupFilter(menuItem.getTitle().toString());
 
-        //Init Notes count
-        tvItemCount.setText(String.format("%s %s %s %s", getString(R.string.notes_count), String.valueOf(getItemCount(taskAdapter.getCurrentList()))/*String.valueOf(getItemCount(list)*/,
-                getString(R.string.notes_done_count), String.valueOf(getDoneItemCount(taskAdapter.getCurrentList()))));
+            //Init Notes count
+            tvItemCount.setText(String.format("%s %s %s %s", getString(R.string.notes_count), String.valueOf(getItemCount(taskAdapter.getCurrentList()))/*String.valueOf(getItemCount(list)*/,
+                    getString(R.string.notes_done_count), String.valueOf(getDoneItemCount(taskAdapter.getCurrentList()))));
+        }
+        drawerLayout.closeDrawer(Gravity.START);
         return false;
     }
 
@@ -347,5 +351,15 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (presenterSettings.getSettings()) {
+            taskAdapter.showAllTasks();
+        } else {
+            taskAdapter.dontShowDoneTasks();
+        }
     }
 }

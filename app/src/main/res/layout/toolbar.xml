@@ -7,7 +7,7 @@
     android:background="@color/colorPrimaryDark">
 
     <TextView
-        android:id="@+id/tvToolbarDate"
+        android:id="@+id/tvToolbarInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp" />

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.todo.todolist.R;
-import com.todo.todolist.model.Task;
+import com.todo.todolist.model.pojo.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +119,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         notifyDataSetChanged();
     }
 
-    public void groupFilter(String groupName) {
+    public void dontShowDoneTasks() {
+        taskList.clear();
+        for (Task task : copyTaskList) {
+            if (task.isDone() != 1) {
+                taskList.add(task);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void showAllTasks() {
+        taskList.clear();
+        taskList.addAll(copyTaskList);
+        notifyDataSetChanged();
+    }
+
+    public void setGroupFilter(String groupName) {
         taskList.clear();
         if (groupName.equals("All")) {
             taskList.addAll(copyTaskList);

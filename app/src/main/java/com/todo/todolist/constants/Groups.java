@@ -1,4 +1,4 @@
-package com.todo.todolist.utils;
+package com.todo.todolist.constants;
 
 import java.util.ArrayList;
 import java.util.List;

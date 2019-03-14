@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.todo.todolist.model.Task;
+import com.todo.todolist.model.pojo.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
