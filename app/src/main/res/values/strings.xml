@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ToDoList</string>
+    <string name="app_name">To-Do List</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -27,4 +27,10 @@
     <string name="apply_task_button_text">Apply</string>
     <string name="do_not_remind_checkbox">Do not remind</string>
     <string name="group_textview">Group :</string>
+    <string name="navigation_all">All</string>
+    <string name="navigation_general">General</string>
+    <string name="navigation_personal">Personal</string>
+    <string name="navigation_work">Work</string>
+    <string name="navigation_other">Other</string>
+    <string name="choose_group_of_tasks">Choose group of tasks</string>
 </resources>

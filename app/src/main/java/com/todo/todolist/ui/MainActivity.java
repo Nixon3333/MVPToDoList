@@ -7,13 +7,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +41,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements Contract.View, DeleteTaskDialogFragment.MyDialogListener {
+public class MainActivity extends AppCompatActivity implements Contract.View, DeleteTaskDialogFragment.MyDialogListener, NavigationView.OnNavigationItemSelectedListener {
 
     private Contract.Presenter presenter;
     private RecyclerView recyclerView;
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     private TextView tvToolbarDate;
     private LinearLayout layoutSelectMode;
     private boolean doubleBackToExitPressedOnce = false;
+    private DrawerLayout drawerLayout;
 
 
     @Override
@@ -73,11 +80,19 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
     }
 
     private void initUI() {
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
 
         tvToolbarDate = findViewById(R.id.tvToolbarDate);
 
@@ -91,8 +106,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
 
         recyclerView.setAdapter(taskAdapter);
 
+        //Init Notes count
         tvItemCount = findViewById(R.id.tvItemCount);
-        tvItemCount.setText(String.format("%s %s %s %s", getString(R.string.notes_count), String.valueOf(getItemCount(list)),
+        tvItemCount.setText(String.format("%s %s %s %s", getString(R.string.notes_count), String.valueOf(getItemCount(taskAdapter.getCurrentList()))/*String.valueOf(getItemCount(list)*/,
                 getString(R.string.notes_done_count), String.valueOf(getDoneItemCount(list))));
 
         tvToolbarDate.setText(presenter.getCurrentDate());
@@ -306,5 +322,26 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                 taskAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        drawerLayout.closeDrawer(Gravity.START);
+        taskAdapter.groupFilter(menuItem.getTitle().toString());
+
+        //Init Notes count
+        tvItemCount.setText(String.format("%s %s %s %s", getString(R.string.notes_count), String.valueOf(getItemCount(taskAdapter.getCurrentList()))/*String.valueOf(getItemCount(list)*/,
+                getString(R.string.notes_done_count), String.valueOf(getDoneItemCount(taskAdapter.getCurrentList()))));
+        return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

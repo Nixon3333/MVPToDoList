@@ -119,6 +119,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         notifyDataSetChanged();
     }
 
+    public void groupFilter(String groupName) {
+        taskList.clear();
+        if (groupName.equals("All")) {
+            taskList.addAll(copyTaskList);
+        } else {
+            for (Task task : copyTaskList) {
+                if (task.getGroup().equals(groupName)) {
+                    taskList.add(task);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     public List<Task> getCurrentList() {
         return taskList;
     }
