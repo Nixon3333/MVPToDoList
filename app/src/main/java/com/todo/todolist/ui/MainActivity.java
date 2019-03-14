@@ -119,7 +119,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
                     bundle.getInt("priority", 2),
                     bundle.getString("date"),
                     0,
-                    doRemind);
+                    doRemind,
+                    bundle.getString("group"));
             String position = bundle.getString("position");
             presenter.editTask(task, Integer.parseInt(position), taskAdapter.getCurrentList());
         }
@@ -206,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, De
         intent.putExtra("task", task[1]);
         intent.putExtra("date", task[2]);
         intent.putExtra("priority", task[3]);
+        intent.putExtra("group", task[4]);
         startActivityForResult(intent, CONST.EDIT_REQUEST_CODE);
     }
 

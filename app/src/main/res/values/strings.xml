@@ -26,4 +26,5 @@
     <string name="add_task_button_text">Add task</string>
     <string name="apply_task_button_text">Apply</string>
     <string name="do_not_remind_checkbox">Do not remind</string>
+    <string name="group_textview">Group :</string>
 </resources>

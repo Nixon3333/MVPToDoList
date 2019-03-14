@@ -22,7 +22,7 @@ public class FabHideOnScroll extends FloatingActionButton.Behavior {
     public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
         //child -> Floating Action Button
-        if (child.getVisibility() == View.VISIBLE && dyConsumed > 0) {
+        if (child.getVisibility() == View.VISIBLE && dyConsumed > 30) {
             child.hide(new FloatingActionButton.OnVisibilityChangedListener() {
                 @Override
                 public void onHidden(FloatingActionButton fab) {

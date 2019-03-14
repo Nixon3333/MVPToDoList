@@ -10,10 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +25,7 @@ import com.todo.todolist.contractApi.Contract;
 import com.todo.todolist.model.Task;
 import com.todo.todolist.presenter.Presenter;
 import com.todo.todolist.utils.CONST;
+import com.todo.todolist.utils.Groups;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +40,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
     private Bundle requestCode;
     private TextView tvPriority;
     private CheckBox cbRemind;
+    private Spinner spinGroup;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +59,11 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         etTask = findViewById(R.id.etTask);
         etTitle = findViewById(R.id.etTitle);
         etDate = findViewById(R.id.etDate);
+
+        spinGroup = findViewById(R.id.spinGroup);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Groups.getGroupList());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinGroup.setAdapter(adapter);
 
         rgPriority = findViewById(R.id.rgPriority);
 
@@ -81,6 +91,23 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
             etTitle.setText(getIntent().getStringExtra("title"));
             etTask.setText(getIntent().getStringExtra("task"));
             etDate.setText(getIntent().getStringExtra("date"));
+
+            int selection = 0;
+            switch (getIntent().getStringExtra("group")) {
+                case "General":
+                    selection = 0;
+                    break;
+                case "Person":
+                    selection = 1;
+                    break;
+                case "Work":
+                    selection = 2;
+                    break;
+                case "Other":
+                    selection = 3;
+                    break;
+            }
+            spinGroup.setSelection(selection);
 
             switch (Integer.valueOf(getIntent().getStringExtra("priority"))) {
                 case 1:
@@ -116,7 +143,8 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         if (etTitle.getText().toString().equals("") & etTask.getText().toString().equals(""))
             Toast.makeText(this, R.string.toast_text_task_is_empty, Toast.LENGTH_LONG).show();
         else {
-            Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0, doRemind);
+            Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(),
+                    priority, etDate.getText().toString(), 0, doRemind, spinGroup.getSelectedItem().toString());
             presenter.saveTask(task);
             setResult(RESULT_OK);
             finish();
@@ -146,7 +174,8 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         int doRemind = 1;
         if (cbRemind.isChecked())
             doRemind = 0;
-        Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(), priority, etDate.getText().toString(), 0, doRemind);
+        Task task = new Task(etTitle.getText().toString(), etTask.getText().toString(),
+                priority, etDate.getText().toString(), 0, doRemind, spinGroup.getSelectedItem().toString());
         Intent data = new Intent();
         data.putExtra("taskBundle", taskToBundle(task, position));
 
@@ -162,6 +191,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         bundle.putString("date", task.getDate());
         bundle.putString("done", "0");
         bundle.putString("position", String.valueOf(position));
+        bundle.putString("group", task.getGroup());
         boolean doRemind = true;
         if (task.getDoRemind() == 0)
             doRemind = false;
@@ -169,7 +199,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
         return bundle;
     }
 
-    private void callTimePicker() {
+    /*private void callTimePicker() {
         // получаем текущее время
         final Calendar cal = Calendar.getInstance();
         int mHour = cal.get(Calendar.HOUR_OF_DAY);
@@ -183,7 +213,7 @@ public class TaskActivity extends AppCompatActivity implements Contract.View {
                     //editTextTime.setText(editTextTimeParam);
                 }, mHour, mMinute, false);
         timePickerDialog.show();
-    }
+    }*/
 
     private void callDatePicker() {
         // получаем текущую дату

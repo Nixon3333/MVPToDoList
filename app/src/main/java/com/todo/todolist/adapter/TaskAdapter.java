@@ -40,11 +40,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskViewHolder.tvTitle.setPaintFlags(taskViewHolder.tvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             taskViewHolder.tvTask.setPaintFlags(taskViewHolder.tvTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             taskViewHolder.tvDate.setVisibility(View.GONE);
+            taskViewHolder.tvGroup.setVisibility(View.GONE);
             taskViewHolder.imagePriority.setVisibility(View.GONE);
         } else {
             taskViewHolder.tvTitle.setPaintFlags(0);
             taskViewHolder.tvTask.setPaintFlags(0);
             taskViewHolder.tvDate.setVisibility(View.VISIBLE);
+            taskViewHolder.tvGroup.setVisibility(View.VISIBLE);
             taskViewHolder.imagePriority.setVisibility(View.VISIBLE);
             taskViewHolder.cbSelect.setVisibility(View.GONE);
         }
@@ -55,6 +57,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         taskViewHolder.tvTitle.setText(taskList.get(i).getTitle());
         taskViewHolder.tvTask.setText(taskList.get(i).getTask());
         taskViewHolder.tvDate.setText(taskList.get(i).getDate());
+        taskViewHolder.tvGroup.setText(taskList.get(i).getGroup());
         switch (taskList.get(i).getPriority()) {
             case 1:
                 taskViewHolder.imagePriority.setImageResource(R.drawable.shape_circle_red);
@@ -130,6 +133,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView tvTitle;
         TextView tvTask;
         TextView tvDate;
+        TextView tvGroup;
         ImageView imagePriority;
         CheckBox cbSelect;
 
@@ -138,6 +142,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvTask = itemView.findViewById(R.id.tvTask);
             tvDate = itemView.findViewById(R.id.tvDate);
+            tvGroup = itemView.findViewById(R.id.tvGroup);
             imagePriority = itemView.findViewById(R.id.imagePriority);
             cbSelect = itemView.findViewById(R.id.cbSelect);
 

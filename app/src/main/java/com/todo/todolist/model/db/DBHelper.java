@@ -15,7 +15,8 @@ import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
+
     private static final String DATABASE_NAME = "taskDb";
     private static final String TABLE_NAME = "tasks";
 
@@ -26,6 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_DATE = "date";
     private static final String KEY_DONE = "done";
     private static final String KEY_REMIND = "remind";
+    private static final String KEY_GROUP = "group_name";
 
     private static List<Task> taskList = new ArrayList<>();
 
@@ -37,15 +39,17 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("create table " + TABLE_NAME + "(" + KEY_ID
                 + " integer primary key autoincrement," + KEY_TITLE + " text," + KEY_TASK + " text,"
-                + KEY_PRIORITY + " integer," + KEY_DATE + " text," + KEY_DONE + " integer default 0," + KEY_REMIND + " integer default 1" + ")");
+                + KEY_PRIORITY + " integer," + KEY_DATE + " text,"
+                + KEY_DONE + " integer default 0," + KEY_REMIND + " integer default 1,"
+                + KEY_GROUP + " text" + ")");
     }
 
     //Temporary solution
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         switch (i) {
-            case 2:
-                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + KEY_REMIND + " integer default 1");
+            case 3:
+                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + KEY_GROUP + " text");
         }
         //sqLiteDatabase.execSQL("drop table if exists " + TABLE_NAME);
         //onCreate(sqLiteDatabase);
@@ -59,18 +63,20 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_PRIORITY, task.getPriority());
         contentValues.put(KEY_DATE, task.getDate());
         contentValues.put(KEY_REMIND, task.getDoRemind());
+        contentValues.put(KEY_GROUP, task.getGroup());
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
         sqLiteDatabase.close();
     }
 
     public List<Task> loadTask() {
         taskList = new ArrayList<>();
-        String[] projection = {"title", "task", "priority", "date", "done", "remind"};
+        String[] projection = {"title", "task", "priority", "date", "done", "remind", "group_name"};
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query("tasks", projection, null, null,
                 null, null, null);
         while (cursor.moveToNext()) {
-            taskList.add(new Task(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5)));
+            taskList.add(new Task(cursor.getString(0), cursor.getString(1), cursor.getInt(2),
+                    cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6)));
         }
         cursor.close();
         sqLiteDatabase.close();
@@ -92,6 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("priority", task.getPriority());
         contentValues.put("date", task.getDate());
         contentValues.put("remind", task.getDoRemind());
+        contentValues.put("group_name", task.getGroup());
         sqLiteDatabase.update("tasks", contentValues, "title = ? AND task = ? AND priority = ?", whereArgs);
         sqLiteDatabase.close();
     }
@@ -108,11 +115,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public String[] getEditTask(int position, List<Task> list) {
-        String[] task = new String[4];
+        String[] task = new String[5];
         task[0] = list.get(position).getTitle();
         task[1] = list.get(position).getTask();
         task[2] = list.get(position).getDate();
         task[3] = String.valueOf(list.get(position).getPriority());
+        task[4] = list.get(position).getGroup();
         return task;
     }
 

@@ -14,8 +14,9 @@ public class Task implements Comparable<Task> {
     private int done;
     private boolean isSelected;
     private int doRemind;
+    private String group;
 
-    public Task(String title, String task, int priority, String date, int isDone, int doRemind) {
+    public Task(String title, String task, int priority, String date, int isDone, int doRemind, String group) {
         this.title = title;
         this.task = task;
         this.priority = priority;
@@ -23,6 +24,15 @@ public class Task implements Comparable<Task> {
         this.done = isDone;
         this.isSelected = false;
         this.doRemind = doRemind;
+        this.group = group;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public int getDoRemind() {
