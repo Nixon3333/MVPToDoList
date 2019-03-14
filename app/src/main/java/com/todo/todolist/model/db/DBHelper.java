@@ -15,7 +15,7 @@ import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 1;
 
     private static final String DATABASE_NAME = "taskDb";
     private static final String TABLE_NAME = "tasks";
@@ -47,12 +47,12 @@ public class DBHelper extends SQLiteOpenHelper {
     //Temporary solution
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        switch (i) {
+        /*switch (i) {
             case 3:
                 sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + KEY_GROUP + " text");
-        }
-        //sqLiteDatabase.execSQL("drop table if exists " + TABLE_NAME);
-        //onCreate(sqLiteDatabase);
+        }*/
+        sqLiteDatabase.execSQL("drop table if exists " + TABLE_NAME);
+        onCreate(sqLiteDatabase);
     }
 
     public void saveTask(Task task) {
@@ -149,4 +149,8 @@ public class DBHelper extends SQLiteOpenHelper {
         list.get(position).setSelected(!list.get(position).isSelected());
     }
 
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.setVersion(oldVersion);
+    }
 }
