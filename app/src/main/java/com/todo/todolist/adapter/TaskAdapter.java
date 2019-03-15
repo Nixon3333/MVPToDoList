@@ -142,6 +142,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         notifyDataSetChanged();
     }
 
+    public boolean checkSelectedItems() {
+        boolean result = false;
+        for (Task task : taskList) {
+            if (task.isSelected())
+                result = true;
+        }
+        return result;
+    }
+
     public void setGroupFilter(String groupName) {
         taskList.clear();
         if (groupName.equals("All")) {
@@ -184,7 +193,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             cbSelect = itemView.findViewById(R.id.cbSelect);
 
             itemView.setOnCreateContextMenuListener(this);
-            itemView.setOnClickListener(this);
+            //itemView.setOnClickListener(this);
         }
 
         @Override

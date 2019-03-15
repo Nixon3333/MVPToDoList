@@ -201,10 +201,11 @@ public class MainActivity extends AppCompatActivity implements ContractMain.View
                 if (TaskAdapter.selectMode)
                     layoutSelectMode.setVisibility(View.VISIBLE);
 
-                taskAdapter.notifyDataSetChanged();
-
                 if (taskAdapter.getCountOfSelectedItems(taskAdapter.getCurrentList()) == 0)
                     layoutSelectMode.setVisibility(View.GONE);
+
+
+                taskAdapter.notifyDataSetChanged();
 
                 break;
         }
