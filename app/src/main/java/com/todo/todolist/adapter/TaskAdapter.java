@@ -17,6 +17,7 @@ import com.todo.todolist.R;
 import com.todo.todolist.model.pojo.Task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
@@ -101,6 +102,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         taskList.addAll(list);
         copyTaskList = new ArrayList<>();
         copyTaskList.addAll(taskList);
+        notifyDataSetChanged();
+    }
+
+    public void switchTaskDone(int position) {
+        taskList.get(position).setDone(!(taskList.get(position).getDone()));
+        Collections.sort(taskList);
         notifyDataSetChanged();
     }
 

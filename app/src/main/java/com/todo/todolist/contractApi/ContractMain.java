@@ -43,17 +43,17 @@ public interface ContractMain {
 
         List<Task> loadTasks(Context context);
 
-        void save(Task task, Context context);
+        void saveTask(Task task, Context context);
 
-        void edit(Task task, Context context, int position, List<Task> list);
+        void editTask(Task task, Context context, int position, List<Task> list);
 
-        void delete(Context context, int position, List<Task> list);
+        void deleteTask(Context context, int position, List<Task> list);
 
         void switchDone(Context context, int position, List<Task> list);
 
         String[] getEdit(Context context, int position, List<Task> list);
 
-        void switchSelect(Context context, int position, List<Task> list);
+        void switchSelectItem(Context context, int position, List<Task> list);
 
     }
 }

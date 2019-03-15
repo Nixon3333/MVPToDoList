@@ -85,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void editTask(Task task, int position, List<Task> list) {
-        Log.d("edit", taskList.get(position).getTitle());
+        Log.d("editTask", taskList.get(position).getTitle());
 
         String[] whereArgs = new String[3];
         whereArgs[0] = list.get(position).getTitle();

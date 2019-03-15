@@ -27,6 +27,17 @@ public class Task implements Comparable<Task> {
         this.group = group;
     }
 
+    public void setDone(boolean done) {
+        if (done)
+            this.done = 1;
+        else
+            this.done = 0;
+    }
+
+    public boolean getDone() {
+        return done != 0;
+    }
+
     public String getGroup() {
         return group;
     }

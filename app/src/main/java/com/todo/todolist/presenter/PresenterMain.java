@@ -29,17 +29,17 @@ public class PresenterMain implements ContractMain.Presenter {
 
     @Override
     public void saveTask(Task task) {
-        model.save(task, context);
+        model.saveTask(task, context);
     }
 
     @Override
     public void editTask(Task task, int position, List<Task> list) {
-        model.edit(task, context, position, list);
+        model.editTask(task, context, position, list);
     }
 
     @Override
     public void deleteTask(int position, List<Task> list) {
-        model.delete(context, position, list);
+        model.deleteTask(context, position, list);
     }
 
     @Override
@@ -54,6 +54,6 @@ public class PresenterMain implements ContractMain.Presenter {
 
     @Override
     public void switchSelectItem(int position, List<Task> list) {
-        model.switchSelect(context, position, list);
+        model.switchSelectItem(context, position, list);
     }
 }

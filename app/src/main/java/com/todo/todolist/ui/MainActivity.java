@@ -40,7 +40,6 @@ import com.todo.todolist.utils.DeleteTaskDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements ContractMain.View, ContractSettings.View, DeleteTaskDialogFragment.MyDialogListener, NavigationView.OnNavigationItemSelectedListener {
@@ -178,17 +177,18 @@ public class MainActivity extends AppCompatActivity implements ContractMain.View
             case 1:
                 //Done
                 presenterMain.switchDone(item.getOrder(), taskAdapter.getCurrentList());
-                presenterMain.getTasks();
+                taskAdapter.switchTaskDone(item.getOrder());
+                //presenterMain.getTasks();
                 break;
             case 2:
                 //Edit
-                Log.d("Menu", "edit");
+                Log.d("Menu", "editTask");
 
                 doOnMenuEditClick(item);
 
                 Log.d("Menu", String.valueOf(item.getOrder()));
                 break;
-            //Delete
+                //Delete
             case 3:
                 Log.d("Menu", "ic_delete_white");
                 doOnMenuDeleteClick(item);
