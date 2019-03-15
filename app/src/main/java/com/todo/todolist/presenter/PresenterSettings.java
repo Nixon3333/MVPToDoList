@@ -19,13 +19,23 @@ public class PresenterSettings implements ContractSettings.Presenter {
     }
 
     @Override
-    public boolean getSettings() {
-        return model.loadSettings(context);
+    public boolean getDoneTasksSettings() {
+        return model.loadDoneTasksSettings(context);
     }
 
     @Override
-    public void saveSettings(boolean showDoneTasks) {
-        model.saveSettings(context, showDoneTasks);
+    public boolean getIsFirstSetting() {
+        return model.getIsFirstSetting(context);
+    }
+
+    @Override
+    public void saveDoneTasksSettings(boolean showDoneTasks) {
+        model.saveDoneTasksSettings(context, showDoneTasks);
+    }
+
+    @Override
+    public void saveIsFirstSettings() {
+        model.saveIsFirstSettings(context);
     }
 
 

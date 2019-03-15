@@ -9,12 +9,16 @@ public interface ContractSettings {
     }
 
     interface Presenter {
-        boolean getSettings();
-        void saveSettings(boolean showDoneTasks);
+        boolean getDoneTasksSettings();
+        boolean getIsFirstSetting();
+        void saveDoneTasksSettings(boolean showDoneTasks);
+        void saveIsFirstSettings();
     }
 
     interface Model {
-        boolean loadSettings(Context context);
-        void saveSettings(Context context, boolean showDoneTasks);
+        boolean loadDoneTasksSettings(Context context);
+        boolean getIsFirstSetting(Context context);
+        void saveDoneTasksSettings(Context context, boolean showDoneTasks);
+        void saveIsFirstSettings(Context context);
     }
 }

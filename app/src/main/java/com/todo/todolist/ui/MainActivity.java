@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -66,9 +69,17 @@ public class MainActivity extends AppCompatActivity implements ContractMain.View
         initUI();
 
         presenterMain = new PresenterMain(this, this);
+        presenterSettings = new PresenterSettings(this, this);
+
+        if (presenterSettings.getIsFirstSetting()) {
+            presenterMain.saveTask(new Task("Need to buy", "Milk", 1, "16.3.2019", 0, 0, "General"));
+            presenterMain.saveTask(new Task("Watch film", "Avengers", 2, "18.3.2019", 0, 1, "Personal"));
+
+            Snackbar.make(recyclerView, "Use long tap at task to multiple choice", 10000).show();
+        }
+
         presenterMain.getTasks();
 
-        presenterSettings = new PresenterSettings(this, this);
 
     }
 
@@ -357,10 +368,16 @@ public class MainActivity extends AppCompatActivity implements ContractMain.View
     @Override
     protected void onResume() {
         super.onResume();
-        if (presenterSettings.getSettings()) {
+        if (presenterSettings.getDoneTasksSettings()) {
             taskAdapter.showAllTasks();
         } else {
             taskAdapter.dontShowDoneTasks();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenterSettings.saveIsFirstSettings();
     }
 }

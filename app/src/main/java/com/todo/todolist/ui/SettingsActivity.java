@@ -31,12 +31,12 @@ public class SettingsActivity extends AppCompatActivity implements ContractSetti
         tvToolbarInfo.setText(R.string.toolbar_settings);
 
         cbShowDoneTasks = findViewById(R.id.cbShowDoneTasks);
-        cbShowDoneTasks.setChecked(presenter.getSettings());
+        cbShowDoneTasks.setChecked(presenter.getDoneTasksSettings());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        presenter.saveSettings(cbShowDoneTasks.isChecked());
+        presenter.saveDoneTasksSettings(cbShowDoneTasks.isChecked());
     }
 }

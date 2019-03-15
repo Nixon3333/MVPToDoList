@@ -31,6 +31,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static List<Task> taskList = new ArrayList<>();
 
+    private SQLiteDatabase sqLiteDatabase;
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -56,7 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void saveTask(Task task) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_TITLE, task.getTitle());
         contentValues.put(KEY_TASK, task.getTask());
@@ -71,7 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<Task> loadTask() {
         taskList = new ArrayList<>();
         String[] projection = {"title", "task", "priority", "date", "done", "remind", "group_name"};
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query("tasks", projection, null, null,
                 null, null, null);
         while (cursor.moveToNext()) {
@@ -91,7 +93,7 @@ public class DBHelper extends SQLiteOpenHelper {
         whereArgs[0] = list.get(position).getTitle();
         whereArgs[1] = list.get(position).getTask();
         whereArgs[2] = String.valueOf(list.get(position).getPriority());
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", task.getTitle());
         contentValues.put("task", task.getTask());
@@ -109,7 +111,7 @@ public class DBHelper extends SQLiteOpenHelper {
         whereArgs[1] = list.get(position).getTask();
         whereArgs[2] = String.valueOf(list.get(position).getPriority());
         whereArgs[3] = list.get(position).getDate();
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete("tasks", "title = ? AND task = ? AND priority = ? AND date = ?", whereArgs);
         sqLiteDatabase.close();
     }
@@ -140,17 +142,12 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put("done", 0);
         else
             contentValues.put("done", 1);
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.update("tasks", contentValues, "title = ? AND task = ? AND priority = ? AND date = ?", whereArgs);
         sqLiteDatabase.close();
     }
 
     public void switchSelectTask(int position, List<Task> list) {
         list.get(position).setSelected(!list.get(position).isSelected());
-    }
-
-    @Override
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.setVersion(oldVersion);
     }
 }
